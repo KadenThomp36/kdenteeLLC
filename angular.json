@@ -66,10 +66,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "kdenteeLLC:build:production"
+              "buildTarget": "kdenteeLLC:build:production"
             },
             "development": {
-              "browserTarget": "kdenteeLLC:build:development"
+              "buildTarget": "kdenteeLLC:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -77,7 +77,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "kdenteeLLC:build"
+            "buildTarget": "kdenteeLLC:build"
           }
         },
         "test": {
