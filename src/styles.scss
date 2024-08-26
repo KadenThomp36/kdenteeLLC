@@ -9,24 +9,17 @@ $my-theme: mat.define-theme(
       primary: mat.$magenta-palette,
     ),
     typography: (
-      plain-family: '"M PLUS Rounded 1c", sans-serif;',
-      brand-family: '"M PLUS Rounded 1c", sans-serif;',
+      plain-family: "M PLUS Rounded 1c",
+      brand-family: "M PLUS Rounded 1c",
     ),
     density: (
       scale: 0,
     ),
   )
 );
-body {
+:root {
   @include mat.all-component-themes($my-theme);
   @include mat.system-level-colors($my-theme); // 👈 Added
   @include mat.system-level-typography($my-theme); // 👈 Added
+  @include mat.typography-hierarchy($my-theme);
 }
-
-// // Emit theme-dependent styles for common features used across multiple components.
-// @include mat.core-theme($my-theme);
-
-// // Emit styles for MatButton based on `$my-theme`. Because the configuration
-// // passed to `m2-define-light-theme` omits typography, `button-theme` will not
-// // emit any typography styles.
-// @include mat.button-theme($my-theme);
