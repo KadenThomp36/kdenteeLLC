@@ -8,6 +8,11 @@ import { ServicesModule } from '@modules/services/services.module';
 const routes: Routes = [
   {
     path: '',
+    redirectTo: '/home',
+    pathMatch: 'full',
+  },
+  {
+    path: '',
     component: MainpageComponent,
     children: [
       {
