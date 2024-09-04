@@ -17,3 +17,7 @@
 .centered-nav-label:hover {
   border-bottom-color: #000;
 }
+
+.mat-drawer-content {
+  overflow: hidden !important;
+}

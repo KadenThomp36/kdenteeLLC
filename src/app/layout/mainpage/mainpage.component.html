@@ -1,5 +1,5 @@
 <!-- src\app\layout\mainpage\mainpage.component.html -->
-<mat-drawer-container class="example-container" hasBackdrop="true">
+<mat-drawer-container class="example-container" hasBackdrop="unset">
   <mat-drawer #drawer mode="over">
     <div style="display: flex; justify-content: flex-end">
       <button mat-mini-fab (click)="drawer.toggle()">
@@ -17,7 +17,7 @@
       </a>
     </mat-nav-list>
   </mat-drawer>
-  <mat-drawer-content>
+  <mat-drawer-content class="no-overflow">
     <!-- Header -->
     <app-header
       [menuItems]="menuItems"
