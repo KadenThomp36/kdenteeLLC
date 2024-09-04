@@ -18,17 +18,10 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'about',
+        path: 'portfolio',
         loadChildren: () =>
-          import('@modules/about/about.module').then(
-            (m): typeof AboutModule => m.AboutModule
-          ),
-      },
-      {
-        path: 'services',
-        loadChildren: () =>
-          import('@modules/services/services.module').then(
-            (m): typeof ServicesModule => m.ServicesModule
+          import('@modules/portfolio/portfolio.module').then(
+            (m): typeof AboutModule => m.PortfolioModule
           ),
       },
     ],

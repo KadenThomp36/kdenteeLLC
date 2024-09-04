@@ -1,11 +1,16 @@
 <div class="hero-container">
-  <div class="left-container">
-    <h1 class="mat-display-large">Fast.<br />Reliable.<br />Powerful.</h1>
-    <p class="sub-heading">
-      Custom web solutions for whatever your application may be
-    </p>
-  </div>
-  <div class="right-container">
-    <img src="../../../../assets/png/Purple 3D Icons.png" />
+  <div class="content-overlay">
+    <!-- <h1 class="mat-display-large">Fast. Reliable. Powerful.</h1> -->
+    <om-gradient-text
+      styleClass="mat-display-large"
+      [text]="'Elevate Your Online Presence'"
+    ></om-gradient-text>
+    <om-typewriter
+      [words]="[
+        'Offering affordable and highly configurable websites to small and emerging businesses to expand their digital presence.'
+      ]"
+      [disableLoop]="true"
+    ></om-typewriter>
+    <button mat-fab extended>Get Started</button>
   </div>
 </div>

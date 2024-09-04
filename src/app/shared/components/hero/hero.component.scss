@@ -1,53 +1,27 @@
 .hero-container {
-  display: flex;
-  width: auto;
-  justify-content: center;
-  align-items: center;
-  margin-top: 3rem;
-  @media only screen and (max-width: 1472px) {
-    flex-direction: column;
-  }
+  position: relative;
+  background-image: url("../../../../assets/png/Purple 3D Icons.png");
+  background-size: cover;
+  background-position: center;
+  height: 75vh; /* Adjust as needed */
+  border-radius: 20px 20px 20px 20px;
+  margin-top: 20px;
+  overflow: hidden;
 }
 
-.left-container {
+.content-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   display: flex;
-  width: 100%;
   flex-direction: column;
-  align-items: center;
-}
-
-.heading {
-  font-size: 96px;
-}
-
-.sub-heading {
-  font-size: 12;
-}
-
-.right-container {
-  width: 100%;
-  display: flex;
-  align-items: center;
   justify-content: center;
-  img {
-    @media only screen and (max-width: 1472px) {
-      margin-right: 0;
-    }
-    margin-right: 5rem;
-    max-width: 100%;
-    max-height: 430px;
-    border-radius: 60px;
-  }
+  align-items: center;
+  padding: 2rem;
+  background-color: rgba(0, 0, 0, 0.5); /* Adds a semi-transparent overlay */
+  color: white; /* Ensures text is visible on the background */
 }
 
-.mat-display-large {
-  font-size: 112px !important;
-  line-height: 7rem !important;
-  font-weight: 700 !important;
-}
-// .hero-container h1 {
-//   font-family: "M PLUS Rounded 1c", sans-serif;
-//   font-size: 3.562rem; /* Same as mat-display-large */
-//   letter-spacing: -0.016rem;
-//   margin: 0 0 0.5em;
-// }
+/* Add any additional styles for h1, p, and button as needed */

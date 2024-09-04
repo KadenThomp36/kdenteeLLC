@@ -1,21 +1,21 @@
 <mat-toolbar>
   <img class="header-logo" src="assets/svg/HeaderLogo-dark.svg" />
-  <div class="header-button-container">
-    <button mat-button>
-      <mat-icon>house</mat-icon>
-      Home
-    </button>
-    <button mat-button>
-      <mat-icon>handshake</mat-icon>
-      Services
-    </button>
-    <button mat-button>
-      <mat-icon>recent_actors</mat-icon>
-      Portfolio
-    </button>
-    <button mat-fab extended class="secondary">
+  <ng-container *ngIf="!(mobile$ | async); else mobile">
+    <div class="header-button-container">
+      <ng-container *ngFor="let item of menuItems">
+        <button mat-button [routerLink]="item.route">
+          {{ item.label }}
+        </button>
+      </ng-container>
+    </div>
+    <button mat-fab extended class="secondary contact-button">
       <mat-icon>comment</mat-icon>
-      Contact
+      Contact Me
     </button>
-  </div>
+  </ng-container>
+  <ng-template #mobile>
+    <button mat-mini-fab (click)="onToggleDrawer()">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </ng-template>
 </mat-toolbar>

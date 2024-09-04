@@ -1,1 +1,37 @@
 <app-hero></app-hero>
+
+<div
+  class="container"
+  style="display: flex; flex-direction: column; align-items: center"
+>
+  <om-lamp backgroundColor="#1e1a1d" lampColor="#9a13cb"></om-lamp>
+
+  <h2 style="margin-top: 1rem">About Me</h2>
+  <p style="max-width: 1400px">
+    I'm a developer with a passion for creating beautiful and functional
+    websites. I'm a graduate of Saginaw Valley State University, and I'm
+    currently a Software Engineer at Rocket Mortgage.
+  </p>
+
+  <h2 style="margin-top: 1rem">Services</h2>
+
+  <mat-grid-list
+    [cols]="breakpoint"
+    gutterSize="1rem"
+    rowHeight="10rem"
+    (window:resize)="onResize($event)"
+  >
+    @for (service of services; track service) {
+    <mat-grid-tile>
+      <mat-card appearance="outlined">
+        <mat-card-header>
+          <mat-card-title>{{ service.name }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>{{ service.description }}</p>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+    }
+  </mat-grid-list>
+</div>
