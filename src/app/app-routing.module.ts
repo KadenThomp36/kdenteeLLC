@@ -29,6 +29,13 @@ const routes: Routes = [
             (m): typeof AboutModule => m.PortfolioModule
           ),
       },
+      {
+        path: 'contact',
+        loadChildren: () =>
+          import('@modules/contact/contact.module').then(
+            (m): typeof AboutModule => m.ContactModule
+          ),
+      },
     ],
   },
 ];

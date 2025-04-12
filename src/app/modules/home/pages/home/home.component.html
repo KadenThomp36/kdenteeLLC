@@ -17,13 +17,12 @@
 
   <mat-grid-list
     [cols]="breakpoint"
-    gutterSize="1rem"
     rowHeight="10rem"
     (window:resize)="onResize($event)"
   >
     @for (service of services; track service) {
     <mat-grid-tile>
-      <mat-card appearance="outlined">
+      <mat-card appearance="outlined" class="shrink-card">
         <mat-card-header>
           <mat-card-title>{{ service.name }}</mat-card-title>
         </mat-card-header>

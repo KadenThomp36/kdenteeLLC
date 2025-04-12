@@ -1,0 +1,37 @@
+/* filepath: /Users/kadenthompson/Documents/Git/kdenteeLLC/src/app/modules/contact/pages/contact/contact/contact.component.scss */
+.contact-container {
+  max-width: clamp(320px, 90%, 600px);
+  margin: 2rem auto;
+  padding: 2rem;
+  background: linear-gradient(135deg, #9a13cb 0%, #470b75 100%);
+  border-radius: 10px;
+  color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.contact-container h2 {
+  margin-bottom: 1rem;
+  font-size: 2rem;
+}
+
+.contact-container p {
+  margin-bottom: 2rem;
+  font-size: 1rem;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.full-width {
+  width: 100%;
+}
+
+button {
+  align-self: center;
+  padding: 0.5rem 2rem;
+  font-size: 1rem;
+}

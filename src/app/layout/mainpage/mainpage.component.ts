@@ -32,5 +32,6 @@ export class MainpageComponent {
   menuItems: MenuItem[] = [
     { label: 'Home', route: '/home' },
     { label: 'Portfolio', route: '/portfolio' },
+    { label: 'Contact', route: '/contact' },
   ];
 }

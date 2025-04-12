@@ -1,0 +1,33 @@
+<p>contact works!</p>
+<div class="contact-container">
+  <h2>Contact Me</h2>
+  <p>
+    Have questions or want to work together? Fill out the form below, and I'll
+    get back to you as soon as possible.
+  </p>
+  <form class="contact-form" (ngSubmit)="onSubmit()" #contactForm="ngForm">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Name</mat-label>
+      <input matInput type="text" name="name" ngModel required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" name="email" ngModel required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Message</mat-label>
+      <textarea matInput name="message" rows="5" ngModel required></textarea>
+    </mat-form-field>
+
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="!contactForm.valid"
+    >
+      Send Message
+    </button>
+  </form>
+</div>

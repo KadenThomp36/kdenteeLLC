@@ -44,8 +44,6 @@ export class HomeComponent {
       description:
         'I will work to get your website included amoung the top user search results on google.',
     },
-
-    // ... add 7 more services to complete the 3x3 grid
   ];
 
   breakpoint = 1;
