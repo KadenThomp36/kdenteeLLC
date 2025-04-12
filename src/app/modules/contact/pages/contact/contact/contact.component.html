@@ -39,9 +39,20 @@
             mat-raised-button
             color="primary"
             type="submit"
-            [disabled]="!contactForm.valid"
+            [disabled]="
+              !contactForm.valid || formState === formStateEnum.SENDING
+            "
           >
-            Send Message
+            <div class="button-content">
+              <span *ngIf="formState !== formStateEnum.SENDING"
+                >Send Message</span
+              >
+              <span *ngIf="formState === formStateEnum.SENDING">Sending</span>
+              <mat-spinner
+                *ngIf="formState === formStateEnum.SENDING"
+                diameter="20"
+              ></mat-spinner>
+            </div>
           </button>
         </form>
         <span *ngIf="result" class="form-result">{{ result }}</span>

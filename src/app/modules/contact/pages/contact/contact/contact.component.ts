@@ -7,7 +7,14 @@ import { MatInputModule } from '@angular/material/input';
 import { CoreUtilitiesService } from '@app/data/services/utilities/core-utilities.service';
 import { NgxCrypticTextComponent } from '@omnedia/ngx-cryptic-text';
 import { NgxShineBorderComponent } from '@omnedia/ngx-shine-border';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
+enum FormState {
+  INITIAL = 'INITIAL',
+  SENDING = 'SENDING',
+  SUCCESS = 'SUCCESS',
+  ERROR = 'ERROR',
+}
 @Component({
   selector: 'app-contact',
   standalone: true,
@@ -19,6 +26,7 @@ import { NgxShineBorderComponent } from '@omnedia/ngx-shine-border';
     MatButtonModule,
     NgxShineBorderComponent,
     NgxCrypticTextComponent,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.scss',
@@ -26,11 +34,13 @@ import { NgxShineBorderComponent } from '@omnedia/ngx-shine-border';
 export class ContactComponent {
   result: string | null = null;
   isSubmitted = false;
+  formState: FormState = FormState.INITIAL;
+  formStateEnum = FormState;
 
   constructor(private coreUtilities: CoreUtilitiesService) {}
 
   async onSubmit(form: any) {
-    this.result = 'Sending...';
+    this.formState = FormState.SENDING;
 
     const formData = new FormData();
     formData.append('access_key', '2b8771bc-263d-4fe9-b48c-e807b9f27255');

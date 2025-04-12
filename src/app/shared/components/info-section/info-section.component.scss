@@ -15,11 +15,23 @@
   flex-direction: column;
   margin: 1rem;
   justify-content: center;
+
+  .headline-link {
+    text-decoration: none; // Remove underline by default
+    color: inherit; // Inherit text color from parent
+
+    &:hover .headline {
+      text-decoration: underline; // Add underline on hover
+    }
+  }
 }
 
 .headline {
   font-size: 1.5rem;
   margin-bottom: 0.5rem;
+  word-wrap: break-word; // Ensures long words wrap
+  overflow-wrap: break-word; // Modern equivalent for better browser support
+  word-break: break-word; // Fallba
 }
 
 .copy {
