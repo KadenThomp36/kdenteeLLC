@@ -6,7 +6,8 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable, map, shareReplay } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { MenuItem } from '@app/data/interfaces/MenuItem';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
+import { CoreUtilitiesService } from '@app/data/services/utilities/core-utilities.service';
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -27,7 +28,7 @@ export class HeaderComponent {
   @Output() toggleDrawer = new EventEmitter<void>();
   @Input() menuItems: MenuItem[] = [];
 
-  constructor(private router: Router) {
+  constructor(private coreUtilities: CoreUtilitiesService) {
     this.mobile$ = this.breakpointObserver
       .observe([Breakpoints.HandsetPortrait, Breakpoints.TabletPortrait])
       .pipe(
@@ -41,6 +42,6 @@ export class HeaderComponent {
   }
 
   onContactClick() {
-    this.router.navigate(['/contact']);
+    this.coreUtilities.routeTo('/contact');
   }
 }

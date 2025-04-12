@@ -27,22 +27,22 @@ export class HomeComponent {
     {
       name: 'Web UI Design',
       description:
-        'I work with clients to help them bring their visions to life and design an ideal website for their buisinesses.',
+        'I collaborate with clients to bring their visions to life by designing modern, user-friendly websites tailored to their business needs.',
     },
     {
       name: 'Photography',
       description:
-        'Personalize your website by shooting your business inside, out and in the air.',
+        'Enhance your website with personalized photography that showcases your business inside and out, creating a unique and professional online presence.',
     },
     {
-      name: 'Hosting & Maintence',
+      name: 'Hosting & Maintenance',
       description:
-        'I will manage all the technical details of your website so my clients can focus on running their busniess',
+        'Let me handle the technical aspects of your website, including hosting and ongoing maintenance, so you can focus on your business.',
     },
     {
-      name: 'Search Engine Optimization',
+      name: 'Search Engine Optimization (SEO)',
       description:
-        'I will work to get your website included amoung the top user search results on google.',
+        'I optimize your website to improve its visibility on search engines, helping it rank higher and attract more potential customers.',
     },
   ];
 

@@ -1,6 +1,6 @@
 {
   "name": "kdentee-llc",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -21,6 +21,7 @@
     "@angular/platform-browser-dynamic": "^18.2.1",
     "@angular/router": "^18.2.1",
     "@omnedia/ngx-aurora": "^1.0.1",
+    "@omnedia/ngx-cryptic-text": "^1.0.0",
     "@omnedia/ngx-gradient-text": "^1.0.0",
     "@omnedia/ngx-lamp": "^1.0.0",
     "@omnedia/ngx-shine-border": "^1.1.0",

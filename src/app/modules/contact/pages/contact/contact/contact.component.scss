@@ -1,12 +1,22 @@
-/* filepath: /Users/kadenthompson/Documents/Git/kdenteeLLC/src/app/modules/contact/pages/contact/contact/contact.component.scss */
-.contact-container {
+.contact-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   max-width: clamp(320px, 90%, 600px);
   margin: 2rem auto;
-  padding: 2rem;
-  background: linear-gradient(135deg, #9a13cb 0%, #470b75 100%);
+  border-radius: 10px;
+}
+
+.contact-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: clamp(320px, 90%, 600px);
+  margin: 2rem auto;
   border-radius: 10px;
   color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   text-align: center;
 }
 
@@ -23,7 +33,9 @@
 .contact-form {
   display: flex;
   flex-direction: column;
+  align-items: stretch;
   gap: 1.5rem;
+  width: 100%;
 }
 
 .full-width {
@@ -34,4 +46,10 @@ button {
   align-self: center;
   padding: 0.5rem 2rem;
   font-size: 1rem;
+}
+
+.cryptic-text {
+  font-size: 4rem;
+  font-weight: bold;
+  line-height: 5rem;
 }
