@@ -3,9 +3,9 @@ import { HeroComponent } from '@app/shared/components/hero/hero.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
-import { NgxShineBorderComponent } from '@omnedia/ngx-shine-border';
 import { NgxLampComponent } from '@omnedia/ngx-lamp';
-import { NgxAuroraComponent } from '@omnedia/ngx-aurora';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-home',
@@ -15,9 +15,9 @@ import { NgxAuroraComponent } from '@omnedia/ngx-aurora';
     MatGridListModule,
     MatCardModule,
     CommonModule,
-    NgxShineBorderComponent,
     NgxLampComponent,
-    NgxAuroraComponent,
+    MatButtonModule,
+    MatIcon,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -27,22 +27,22 @@ export class HomeComponent {
     {
       name: 'Web UI Design',
       description:
-        'I collaborate with clients to bring their visions to life by designing modern, user-friendly websites tailored to their business needs.',
+        'Creating modern, user-friendly websites that are visually appealing and tailored to meet your business goals.',
     },
     {
       name: 'Photography',
       description:
-        'Enhance your website with personalized photography that showcases your business inside and out, creating a unique and professional online presence.',
+        'Offering personalized photography services to help showcase your brand and enhance your online presence.',
     },
     {
       name: 'Hosting & Maintenance',
       description:
-        'Let me handle the technical aspects of your website, including hosting and ongoing maintenance, so you can focus on your business.',
+        'Providing reliable hosting and ongoing maintenance to ensure your website runs smoothly and stays up-to-date.',
     },
     {
-      name: 'Search Engine Optimization (SEO)',
+      name: 'Website Visibility (SEO)',
       description:
-        'I optimize your website to improve its visibility on search engines, helping it rank higher and attract more potential customers.',
+        'Optimizing your website to improve search engine rankings and attract more potential customers to your business.',
     },
   ];
 
@@ -54,5 +54,9 @@ export class HomeComponent {
 
   onResize(event: Event) {
     this.breakpoint = (event.target as Window).innerWidth <= 600 ? 1 : 2;
+  }
+
+  onResumeClick() {
+    window.open('assets/pdf/Resume2025.pdf', '_blank');
   }
 }
