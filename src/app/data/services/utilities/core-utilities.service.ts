@@ -10,4 +10,10 @@ export class CoreUtilitiesService {
   routeTo(path: string) {
     this.router.navigate([path]);
   }
+  trackNavigation(label: string) {
+    gtag('event', 'navigation_click', {
+      event_category: 'Navigation',
+      event_label: label,
+    });
+  }
 }

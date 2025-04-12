@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { MenuItem } from '@app/data/interfaces/MenuItem';
 import { RouterModule } from '@angular/router';
 import { CoreUtilitiesService } from '@app/data/services/utilities/core-utilities.service';
+
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -42,6 +43,11 @@ export class HeaderComponent {
   }
 
   onContactClick() {
+    this.coreUtilities.trackNavigation('Contact');
     this.coreUtilities.routeTo('/contact');
+  }
+
+  trackNavigation(label: string) {
+    this.coreUtilities.trackNavigation(label);
   }
 }

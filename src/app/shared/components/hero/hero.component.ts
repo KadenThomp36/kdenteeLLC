@@ -15,6 +15,7 @@ export class HeroComponent {
   constructor(private coreUtilities: CoreUtilitiesService) {}
 
   onContactClick() {
+    this.coreUtilities.trackNavigation('Contact');
     this.coreUtilities.routeTo('/contact');
   }
 }

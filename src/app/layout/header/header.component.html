@@ -3,7 +3,11 @@
   <ng-container *ngIf="!(mobile$ | async); else mobile">
     <div class="header-button-container">
       <ng-container *ngFor="let item of menuItems">
-        <button mat-button [routerLink]="item.route">
+        <button
+          mat-button
+          [routerLink]="item.route"
+          (click)="trackNavigation(item.label)"
+        >
           {{ item.label }}
         </button>
       </ng-container>

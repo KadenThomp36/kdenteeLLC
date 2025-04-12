@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { NgxLampComponent } from '@omnedia/ngx-lamp';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
+import { CoreUtilitiesService } from '@app/data/services/utilities/core-utilities.service';
 
 @Component({
   selector: 'app-home',
@@ -48,6 +49,8 @@ export class HomeComponent {
 
   breakpoint = 1;
 
+  constructor(private coreUtilities: CoreUtilitiesService) {}
+
   ngOnInit() {
     this.breakpoint = window.innerWidth <= 600 ? 1 : 2;
   }
@@ -57,6 +60,8 @@ export class HomeComponent {
   }
 
   onResumeClick() {
+    this.coreUtilities.trackEvent('resume_download', 'Engagement', 'Resume');
+
     window.open('assets/pdf/Resume2025.pdf', '_blank');
   }
 }

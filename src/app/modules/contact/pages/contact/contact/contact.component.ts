@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { CoreUtilitiesService } from '@app/data/services/utilities/core-utilities.service';
 import { NgxCrypticTextComponent } from '@omnedia/ngx-cryptic-text';
 import { NgxShineBorderComponent } from '@omnedia/ngx-shine-border';
 
@@ -26,6 +27,8 @@ export class ContactComponent {
   result: string | null = null;
   isSubmitted = false;
 
+  constructor(private coreUtilities: CoreUtilitiesService) {}
+
   async onSubmit(form: any) {
     this.result = 'Sending...';
 
@@ -44,14 +47,20 @@ export class ContactComponent {
       const data = await response.json();
 
       if (data.success) {
+        this.coreUtilities.trackFormSuccess('Contact Form');
+
         this.result = 'Message Sent, I will get back to you soon!';
         this.isSubmitted = true;
         form.reset();
       } else {
+        this.coreUtilities.trackFormError('Contact Form Error');
+
         this.result = 'Something went wrong. Please try again.';
       }
     } catch (error) {
       console.error('Error submitting form:', error);
+      this.coreUtilities.trackFormError('Contact Form Error');
+
       this.result = 'An error occurred. Please try again later.';
     }
   }
