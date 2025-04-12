@@ -24,12 +24,14 @@ export class CoreUtilitiesService {
       event_label: label,
     });
   }
+
   trackFormError(label: string) {
     gtag('event', 'form_submission_error', {
       event_category: 'Contact',
       event_label: label,
     });
   }
+
   trackEvent(eventName: string, category: string, label: string) {
     gtag('event', eventName, {
       event_category: category,
