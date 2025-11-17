@@ -1,0 +1,62 @@
+.contact-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: clamp(320px, 90%, 600px);
+  margin: 2rem auto;
+  border-radius: 10px;
+}
+
+.contact-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: clamp(320px, 90%, 600px);
+  margin: 2rem auto;
+  border-radius: 10px;
+  color: white;
+  text-align: center;
+}
+
+.contact-container h2 {
+  margin-bottom: 1rem;
+  font-size: 2rem;
+}
+
+.contact-container p {
+  margin-bottom: 2rem;
+  font-size: 1rem;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.full-width {
+  width: 100%;
+}
+
+button {
+  align-self: center;
+  padding: 0.5rem 2rem;
+  font-size: 1rem;
+}
+
+.cryptic-text {
+  font-size: 4rem;
+  font-weight: bold;
+  line-height: 5rem;
+}
+
+.button-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}

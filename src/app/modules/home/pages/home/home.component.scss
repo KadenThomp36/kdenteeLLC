@@ -1,0 +1,33 @@
+mat-card {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #9a13cb 0%, #470b75 100%);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.container {
+  max-width: clamp(320px, 90%, 1000px);
+  /* additional recommendation */
+  margin: auto;
+}
+
+mat-grid-list {
+  width: 100%; // Ensure full width
+  margin-bottom: 2rem; // Add some space below the grid
+}
+
+om-lamp {
+  width: 100%;
+  margin-top: 10rem;
+  z-index: -1;
+}
+
+.shrink-card {
+  height: 90%;
+  width: 97%;
+}

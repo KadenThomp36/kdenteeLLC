@@ -1,0 +1,33 @@
+<!-- src\app\layout\mainpage\mainpage.component.html -->
+<mat-drawer-container class="example-container" hasBackdrop="unset">
+  <mat-drawer #drawer mode="over">
+    <div style="display: flex; justify-content: flex-end">
+      <button mat-mini-fab (click)="drawer.toggle()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <mat-nav-list>
+      <a
+        mat-list-item
+        *ngFor="let item of menuItems"
+        [routerLink]="item.route"
+        (click)="drawer.close()"
+      >
+        <span>{{ item.label }}</span>
+      </a>
+    </mat-nav-list>
+  </mat-drawer>
+  <mat-drawer-content class="no-overflow">
+    <!-- Header -->
+    <app-header
+      [menuItems]="menuItems"
+      (toggleDrawer)="drawer.toggle()"
+    ></app-header>
+    <!-- Page -->
+    <div class="content-wrapper">
+      <router-outlet></router-outlet>
+    </div>
+    <!-- Footer -->
+    <app-footer></app-footer>
+  </mat-drawer-content>
+</mat-drawer-container>

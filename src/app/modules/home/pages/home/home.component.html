@@ -1,0 +1,46 @@
+<app-hero></app-hero>
+
+<div
+  class="container"
+  style="display: flex; flex-direction: column; align-items: center"
+>
+  <om-lamp backgroundColor="#1e1a1d" lampColor="#9a13cb"></om-lamp>
+
+  <h2 style="margin-top: 1rem">About Me</h2>
+  <p style="max-width: 1400px">
+    I am a passionate developer dedicated to crafting beautiful and functional
+    websites. I hold a degree in Computer Science and currently work as a
+    Software Engineer at Rocket Mortgage, where I specialize in delivering
+    innovative and user-focused solutions.
+  </p>
+  <button
+    style="width: 50%; font-size: 1.2rem; letter-spacing: 0.1rem"
+    mat-fab
+    extended
+    (click)="onResumeClick()"
+  >
+    Resumé
+    <mat-icon>open_in_new</mat-icon>
+  </button>
+
+  <h2 style="margin-top: 1rem">Services</h2>
+
+  <mat-grid-list
+    [cols]="breakpoint"
+    rowHeight="10rem"
+    (window:resize)="onResize($event)"
+  >
+    @for (service of services; track service) {
+    <mat-grid-tile>
+      <mat-card appearance="outlined" class="shrink-card">
+        <mat-card-header>
+          <mat-card-title>{{ service.name }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>{{ service.description }}</p>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+    }
+  </mat-grid-list>
+</div>

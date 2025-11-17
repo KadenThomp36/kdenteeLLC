@@ -1,0 +1,30 @@
+<mat-toolbar class="custom-height">
+  <img class="header-logo" src="assets/svg/HeaderLogo-dark.svg" />
+  <ng-container *ngIf="!(mobile$ | async); else mobile">
+    <div class="header-button-container">
+      <ng-container *ngFor="let item of menuItems">
+        <button
+          mat-button
+          [routerLink]="item.route"
+          (click)="trackNavigation(item.label)"
+        >
+          {{ item.label }}
+        </button>
+      </ng-container>
+    </div>
+    <button
+      mat-fab
+      extended
+      class="secondary contact-button"
+      (click)="onContactClick()"
+    >
+      <mat-icon>comment</mat-icon>
+      Contact Me
+    </button>
+  </ng-container>
+  <ng-template #mobile>
+    <button mat-mini-fab (click)="onToggleDrawer()">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </ng-template>
+</mat-toolbar>

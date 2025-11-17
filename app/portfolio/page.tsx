@@ -38,6 +38,8 @@ export default function Portfolio() {
         imageSrc="/jpg/Photography.jpeg"
         imageAlt="Photography Portfolio"
         buttonLink="https://unsplash.com/@kadenthomp36"
+        buttonText="View on Unsplash"
+        reverse
       />
 
       {/* GitHub Projects */}

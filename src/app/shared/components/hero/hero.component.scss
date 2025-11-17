@@ -1,0 +1,27 @@
+.hero-container {
+  position: relative;
+  background-image: url("../../../../assets/png/hero_image.png");
+  background-size: cover;
+  background-position: center;
+  height: 75vh; /* Adjust as needed */
+  border-radius: 20px 20px 20px 20px;
+  margin-top: 20px;
+  overflow: hidden;
+}
+
+.content-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  background-color: rgba(0, 0, 0, 0.5); /* Adds a semi-transparent overlay */
+  color: white; /* Ensures text is visible on the background */
+}
+
+/* Add any additional styles for h1, p, and button as needed */
