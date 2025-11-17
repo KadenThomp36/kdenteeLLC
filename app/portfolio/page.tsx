@@ -1,10 +1,10 @@
-import type { Metadata } from 'next'
-import InfoSection from '@/components/shared/InfoSection'
+import type { Metadata } from "next";
+import InfoSection from "@/components/shared/InfoSection";
 
 export const metadata: Metadata = {
-  title: 'Portfolio - Kdentee LLC',
-  description: 'View our portfolio of web design and development projects',
-}
+  title: "Portfolio - Kdentee LLC",
+  description: "View our portfolio of web design and development projects",
+};
 
 export default function Portfolio() {
   return (
@@ -37,9 +37,7 @@ export default function Portfolio() {
         copy="Professional photography showcasing diverse subjects from landscapes to portraits. Each image tells a story and captures moments with artistic vision and technical excellence."
         imageSrc="/jpg/Photography.jpeg"
         imageAlt="Photography Portfolio"
-        buttonLink="https://unsplash.com/@kdentee"
-        buttonText="View on Unsplash"
-        reverse
+        buttonLink="https://unsplash.com/@kadenthomp36"
       />
 
       {/* GitHub Projects */}
@@ -52,5 +50,5 @@ export default function Portfolio() {
         buttonText="Visit GitHub"
       />
     </div>
-  )
+  );
 }
