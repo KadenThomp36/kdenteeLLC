@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-gray-950 text-white;
+  }
+}
+
+@layer utilities {
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary-400 via-purple-500 to-pink-500 bg-clip-text text-transparent;
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-primary-500/20;
+  }
+
+  .shine-border {
+    @apply relative overflow-hidden rounded-lg;
+  }
+
+  .shine-border::before {
+    @apply absolute inset-0 rounded-lg;
+    content: '';
+    background: linear-gradient(90deg, transparent, rgba(233, 30, 99, 0.5), transparent);
+    animation: shine 3s infinite;
+  }
+
+  @keyframes shine {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  .aurora-bg {
+    background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(233, 30, 99, 0.3), transparent),
+                radial-gradient(ellipse 80% 50% at 80% 50%, rgba(139, 92, 246, 0.2), transparent),
+                radial-gradient(ellipse 80% 50% at 20% 80%, rgba(236, 72, 153, 0.2), transparent);
+  }
+}
