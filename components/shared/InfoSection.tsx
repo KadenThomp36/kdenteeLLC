@@ -42,8 +42,7 @@ export default function InfoSection({
   const frameOuterStyle =
     hasDesktopDims && previewScale !== 1
       ? {
-          width: (previewDesktopWidth as number) * previewScale,
-          height: (previewDesktopHeight as number) * previewScale,
+          height: ((previewDesktopHeight as number) - 40) * previewScale + 40, // include top bar height
         }
       : undefined;
   const frameInnerStyle =
@@ -93,15 +92,13 @@ export default function InfoSection({
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className={`relative h-96 rounded-2xl overflow-hidden shine-border ${
+            className={`relative h-96 rounded-2xl overflow-hidden ${
               reverse ? "md:order-2" : ""
             }`}
+            style={frameOuterStyle}
           >
             {showIframe ? (
-              <div
-                className="relative h-full bg-gray-900 border border-white/5 rounded-2xl overflow-hidden flex items-start justify-center"
-                style={frameOuterStyle}
-              >
+              <div className="relative h-full w-full bg-gray-900 border border-white/5 rounded-2xl overflow-hidden">
                 <div className="absolute inset-x-0 top-0 h-10 bg-gray-900/80 backdrop-blur-sm border-b border-white/10 flex items-center gap-2 px-4 z-10">
                   <span className="h-3 w-3 rounded-full bg-red-400" />
                   <span className="h-3 w-3 rounded-full bg-yellow-400" />
@@ -116,7 +113,7 @@ export default function InfoSection({
                   loading="lazy"
                   onLoad={handleLoad}
                   onError={handleError}
-                  className="w-full h-full pt-10 bg-gray-950"
+                  className="absolute inset-0 w-full h-full pt-10 bg-gray-950"
                   style={
                     disablePreviewInteraction
                       ? { ...frameInnerStyle, pointerEvents: "none" as const }
