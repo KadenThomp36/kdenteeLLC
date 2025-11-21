@@ -27,8 +27,9 @@ export default function Portfolio() {
         copy="A modern, accessible website for Lincoln Township featuring comprehensive information about local government services, community events, and resources. Built with responsive design to serve residents on any device."
         imageSrc="/jpg/LincolnTownship.jpeg"
         imageAlt="Lincoln Township Website"
-        buttonLink="https://lincoln-twp.com"
+        buttonLink="https://www.lincoln-twp.org"
         buttonText="Visit Site"
+        livePreviewUrl="https://www.lincoln-twp.org"
       />
 
       {/* Photography Portfolio */}
