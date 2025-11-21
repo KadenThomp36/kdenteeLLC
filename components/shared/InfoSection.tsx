@@ -53,11 +53,8 @@ export default function InfoSection({
           height: hasDesktopDims ? previewDesktopHeight : undefined,
           transform: previewScale !== 1 ? `scale(${previewScale})` : undefined,
           transformOrigin: "top left" as const,
-          pointerEvents: disablePreviewInteraction ? "none" : undefined,
         }
-      : {
-          pointerEvents: disablePreviewInteraction ? "none" : undefined,
-        };
+      : undefined;
 
   useEffect(() => {
     if (!livePreviewUrl) return;
@@ -120,7 +117,11 @@ export default function InfoSection({
                   onLoad={handleLoad}
                   onError={handleError}
                   className="w-full h-full pt-10 bg-gray-950"
-                  style={frameInnerStyle}
+                  style={
+                    disablePreviewInteraction
+                      ? { ...frameInnerStyle, pointerEvents: "none" as const }
+                      : frameInnerStyle
+                  }
                   sandbox="allow-scripts allow-same-origin"
                   allow="accelerometer; ambient-light-sensor; autoplay; camera; encrypted-media; geolocation; gyroscope; microphone; midi; payment; usb; vr; xr-spatial-tracking"
                   referrerPolicy="no-referrer"
