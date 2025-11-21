@@ -39,10 +39,15 @@ export default function InfoSection({
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const hasDesktopDims = Boolean(previewDesktopWidth && previewDesktopHeight);
+  const barHeight = 40;
+  const frameHeight =
+    hasDesktopDims && previewScale
+      ? (previewDesktopHeight as number) * previewScale + barHeight
+      : undefined;
   const frameOuterStyle =
-    hasDesktopDims && previewScale !== 1
+    frameHeight !== undefined
       ? {
-          height: ((previewDesktopHeight as number) - 40) * previewScale + 40, // include top bar height
+          height: frameHeight,
         }
       : undefined;
   const frameInnerStyle =
@@ -92,14 +97,14 @@ export default function InfoSection({
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className={`relative h-96 rounded-2xl overflow-hidden ${
+            className={`relative rounded-2xl overflow-hidden ${
               reverse ? "md:order-2" : ""
             }`}
-            style={frameOuterStyle}
+            style={frameOuterStyle ?? { height: "28rem" }}
           >
             {showIframe ? (
               <div className="relative h-full w-full bg-gray-900 border border-white/5 rounded-2xl overflow-hidden">
-                <div className="absolute inset-x-0 top-0 h-10 bg-gray-900/80 backdrop-blur-sm border-b border-white/10 flex items-center gap-2 px-4 z-10">
+                <div className="absolute inset-x-0 top-0 h-10 bg-gray-900/70 backdrop-blur-md border-b border-white/10 flex items-center gap-2 px-4 z-10 pointer-events-none">
                   <span className="h-3 w-3 rounded-full bg-red-400" />
                   <span className="h-3 w-3 rounded-full bg-yellow-400" />
                   <span className="h-3 w-3 rounded-full bg-green-400" />

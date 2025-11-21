@@ -33,7 +33,7 @@ export default function Portfolio() {
         disablePreviewInteraction
         previewDesktopWidth={1440}
         previewDesktopHeight={900}
-        previewScale={0.35}
+        previewScale={0.5}
       />
 
       {/* Photography Portfolio */}
