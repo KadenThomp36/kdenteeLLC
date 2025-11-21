@@ -25,15 +25,10 @@ export default function Portfolio() {
       <InfoSection
         headline="Lincoln Township Website"
         copy="A modern, accessible website for Lincoln Township featuring comprehensive information about local government services, community events, and resources. Built with responsive design to serve residents on any device."
-        imageSrc="/jpg/LincolnTownship.jpeg"
+        imageSrc="/jpg/lincoln-preview.jpg"
         imageAlt="Lincoln Township Website"
         buttonLink="https://www.lincoln-twp.org"
         buttonText="Visit Site"
-        livePreviewUrl="https://www.lincoln-twp.org"
-        disablePreviewInteraction
-        previewDesktopWidth={1440}
-        previewDesktopHeight={900}
-        previewScale={0.5}
       />
 
       {/* Photography Portfolio */}
