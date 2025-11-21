@@ -30,6 +30,10 @@ export default function Portfolio() {
         buttonLink="https://www.lincoln-twp.org"
         buttonText="Visit Site"
         livePreviewUrl="https://www.lincoln-twp.org"
+        disablePreviewInteraction
+        previewDesktopWidth={1440}
+        previewDesktopHeight={900}
+        previewScale={0.35}
       />
 
       {/* Photography Portfolio */}

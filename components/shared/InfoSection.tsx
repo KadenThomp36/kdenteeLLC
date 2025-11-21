@@ -14,6 +14,10 @@ interface InfoSectionProps {
   buttonText?: string;
   reverse?: boolean;
   livePreviewUrl?: string;
+  disablePreviewInteraction?: boolean;
+  previewDesktopWidth?: number;
+  previewDesktopHeight?: number;
+  previewScale?: number;
 }
 
 export default function InfoSection({
@@ -25,10 +29,35 @@ export default function InfoSection({
   buttonText,
   reverse = false,
   livePreviewUrl,
+  disablePreviewInteraction = false,
+  previewDesktopWidth,
+  previewDesktopHeight,
+  previewScale = 1,
 }: InfoSectionProps) {
   const [previewReady, setPreviewReady] = useState(false);
   const [previewFailed, setPreviewFailed] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const hasDesktopDims = Boolean(previewDesktopWidth && previewDesktopHeight);
+  const frameOuterStyle =
+    hasDesktopDims && previewScale !== 1
+      ? {
+          width: (previewDesktopWidth as number) * previewScale,
+          height: (previewDesktopHeight as number) * previewScale,
+        }
+      : undefined;
+  const frameInnerStyle =
+    hasDesktopDims || previewScale !== 1
+      ? {
+          width: hasDesktopDims ? previewDesktopWidth : undefined,
+          height: hasDesktopDims ? previewDesktopHeight : undefined,
+          transform: previewScale !== 1 ? `scale(${previewScale})` : undefined,
+          transformOrigin: "top left" as const,
+          pointerEvents: disablePreviewInteraction ? "none" : undefined,
+        }
+      : {
+          pointerEvents: disablePreviewInteraction ? "none" : undefined,
+        };
 
   useEffect(() => {
     if (!livePreviewUrl) return;
@@ -72,7 +101,10 @@ export default function InfoSection({
             }`}
           >
             {showIframe ? (
-              <div className="relative h-full bg-gray-900 border border-white/5 rounded-2xl overflow-hidden">
+              <div
+                className="relative h-full bg-gray-900 border border-white/5 rounded-2xl overflow-hidden flex items-start justify-center"
+                style={frameOuterStyle}
+              >
                 <div className="absolute inset-x-0 top-0 h-10 bg-gray-900/80 backdrop-blur-sm border-b border-white/10 flex items-center gap-2 px-4 z-10">
                   <span className="h-3 w-3 rounded-full bg-red-400" />
                   <span className="h-3 w-3 rounded-full bg-yellow-400" />
@@ -88,6 +120,14 @@ export default function InfoSection({
                   onLoad={handleLoad}
                   onError={handleError}
                   className="w-full h-full pt-10 bg-gray-950"
+                  style={frameInnerStyle}
+                  sandbox="allow-scripts allow-same-origin"
+                  allow="accelerometer; ambient-light-sensor; autoplay; camera; encrypted-media; geolocation; gyroscope; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+                  referrerPolicy="no-referrer"
+                  aria-hidden={disablePreviewInteraction ? "true" : undefined}
+                  tabIndex={disablePreviewInteraction ? -1 : undefined}
+                  allowFullScreen={false}
+                  scrolling="no"
                 />
                 {!previewReady && (
                   <div className="absolute inset-0 bg-gradient-to-b from-gray-900/80 via-gray-900/70 to-gray-900/90 flex flex-col items-center justify-center gap-2 text-gray-300">
