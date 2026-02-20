@@ -69,48 +69,47 @@ export default function Hero() {
 
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pb-32">
-        <motion.div
+        <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
+          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6"
         >
-          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6">
-            <span className="gradient-text">Kdentee LLC</span>
-          </h1>
+          <span className="gradient-text">Kdentee LLC</span>
+        </motion.h1>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
-            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium mb-8 h-16 flex items-center justify-center"
-          >
-            <span className="text-gray-300">
-              {displayText}
-              <span className="animate-pulse">|</span>
-            </span>
-          </motion.div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3, duration: 0.8 }}
+          className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium mb-8 h-16 flex items-center justify-center"
+        >
+          <span className="text-gray-300">
+            {displayText}
+            <span className="animate-pulse">|</span>
+          </span>
+        </motion.div>
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6, duration: 0.8 }}
-            className="text-lg sm:text-xl md:text-2xl text-gray-400 mb-12 max-w-3xl mx-auto"
-          >
-            Empowering small and emerging businesses with professional web solutions
-          </motion.p>
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6, duration: 0.8 }}
+          className="text-lg sm:text-xl md:text-2xl text-gray-400 mb-12 max-w-3xl mx-auto"
+        >
+          Empowering small and emerging businesses with professional web solutions
+        </motion.p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.9, duration: 0.8 }}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.9, duration: 0.8 }}
+        >
+          <Link
+            href="/contact"
+            className="inline-block px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-primary-500 to-pink-600 rounded-full hover:shadow-2xl hover:shadow-primary-500/50 transition-all duration-300 hover:scale-105"
           >
-            <Link
-              href="/contact"
-              className="inline-block px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-primary-500 to-pink-600 rounded-full hover:shadow-2xl hover:shadow-primary-500/50 transition-all duration-300 hover:scale-105"
-            >
-              Get Started
-            </Link>
-          </motion.div>
+            Get Started
+          </Link>
         </motion.div>
       </div>
 
