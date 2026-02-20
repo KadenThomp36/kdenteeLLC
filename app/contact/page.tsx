@@ -27,15 +27,20 @@ export default function Contact() {
     setSubmitStatus('idle')
 
     try {
-      const formData = new FormData()
-      formData.append('access_key', '2b8771bc-263d-4fe9-b48c-e807b9f27255')
-      formData.append('name', data.name)
-      formData.append('email', data.email)
-      formData.append('message', data.message)
-
       const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          access_key: '2b8771bc-263d-4fe9-b48c-e807b9f27255',
+          name: data.name,
+          email: data.email,
+          message: data.message,
+          subject: `New Contact Form Submission from ${data.name}`,
+          from_name: 'Kdentee LLC Website',
+        }),
       })
 
       const result = await response.json()
@@ -209,6 +214,44 @@ export default function Contact() {
                 </motion.div>
               )}
             </form>
+          </motion.div>
+
+          {/* Alternate Contact Options */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6"
+          >
+            <a
+              href="mailto:kadenthompson@kdenteellc.com"
+              className="flex items-center gap-4 p-6 bg-gray-800/50 rounded-xl border border-gray-700 hover:border-primary-500 transition-all duration-300 group"
+            >
+              <div className="flex-shrink-0 w-12 h-12 bg-primary-500/20 rounded-lg flex items-center justify-center group-hover:bg-primary-500/30 transition-colors">
+                <svg className="w-6 h-6 text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <div>
+                <p className="text-sm text-gray-400">Email us</p>
+                <p className="text-white font-medium">kadenthompson@kdenteellc.com</p>
+              </div>
+            </a>
+
+            <a
+              href="tel:+19899415846"
+              className="flex items-center gap-4 p-6 bg-gray-800/50 rounded-xl border border-gray-700 hover:border-primary-500 transition-all duration-300 group"
+            >
+              <div className="flex-shrink-0 w-12 h-12 bg-primary-500/20 rounded-lg flex items-center justify-center group-hover:bg-primary-500/30 transition-colors">
+                <svg className="w-6 h-6 text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+              </div>
+              <div>
+                <p className="text-sm text-gray-400">Call us</p>
+                <p className="text-white font-medium">(989) 941-5846</p>
+              </div>
+            </a>
           </motion.div>
         </div>
       </section>
