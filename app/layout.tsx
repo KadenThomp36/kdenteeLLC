@@ -73,10 +73,10 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${mPlusRounded.variable} ${mPlusRounded.className} bg-gray-950 text-white antialiased font-sans`}
+        className={`${mPlusRounded.variable} ${mPlusRounded.className} bg-[#06060a] text-white antialiased font-sans grain-overlay`}
       >
         <GoogleAnalytics />
-        <div className="flex flex-col min-h-screen">
+        <div className="flex flex-col min-h-screen relative">
           <Header />
           <main className="flex-1">{children}</main>
           <Footer />
