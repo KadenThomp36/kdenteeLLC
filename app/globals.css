@@ -150,11 +150,14 @@
 .glass-card {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.06);
-  transform: translateZ(0);
+  will-change: transform;
 }
 
 .glass-card-hover {
-  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  transition:
+    background 0.5s cubic-bezier(0.23, 1, 0.32, 1),
+    border-color 0.5s cubic-bezier(0.23, 1, 0.32, 1),
+    box-shadow 0.5s cubic-bezier(0.23, 1, 0.32, 1);
 }
 .glass-card-hover:hover {
   background: rgba(255, 255, 255, 0.06);
