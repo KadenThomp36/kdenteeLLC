@@ -162,17 +162,17 @@ function Hero() {
               <span className="font-semibold text-ink">{site.owner}</span>, {site.ownerRole}
             </p>
           </div>
-          {/* From md the portrait fills the row height: when the copy is taller (768–1023px) it crops
-              the arm side instead of floating low; at wider sizes it shows uncropped. */}
-          <figure className="md:order-1">
+          {/* The dissolve is baked into the image (docs/portrait-vignette.py), so it is always shown
+              whole: never crop it or add a CSS mask. */}
+          <figure className="md:order-1 md:self-center">
             <Image
               src={heroPortrait}
               alt="Kaden Thompson"
               priority
               // Served as-is: re-encoding shifts the #F4F4F4 backdrop by a level and a seam shows.
               unoptimized
-              sizes="(min-width: 1200px) 460px, (min-width: 768px) 40vw, 76vw"
-              className="hero-portrait hero-enter-portrait block aspect-square w-[76%] max-w-[22rem] object-cover object-top md:aspect-auto md:h-full md:w-full md:max-w-none md:object-left-top"
+              sizes="(min-width: 1200px) 460px, (min-width: 768px) 40vw, 82vw"
+              className="hero-enter-portrait block h-auto w-[82%] max-w-[23rem] md:w-full md:max-w-none"
             />
           </figure>
         </div>

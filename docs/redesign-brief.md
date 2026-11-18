@@ -129,7 +129,7 @@ link · "GitHub" linking to https://github.com/KadenThomp36 · "© {year}".
 
 | File | What |
 |---|---|
-| `public/img/kaden-hero.jpg` (1067×1330) | Black-and-white portrait, backdrop graded to `#F4F4F4`. Hero only. Show it with no frame, radius or border; fade its right and bottom edges into the page with a CSS mask (see `/tmp/kd-mock/home-v5.html`, `.hero figure img`). He looks toward the right, so the photo sits LEFT of the headline on desktop. |
+| `public/img/kaden-hero.jpg` (1067×1130) | Black-and-white portrait as a vignetted bust: the backdrop is exactly `#F4F4F4` and the chest dissolves into it with an eased, grain-dithered falloff baked into the file by `docs/portrait-vignette.py`. Hero only. Always show it whole and unoptimized, with no frame, crop or CSS mask. He looks toward the right, so the photo sits LEFT of the headline on desktop. |
 | `public/img/kaden-about.jpg` (1067×1600) | Smiling portrait. Its backdrop does not match the page, so show it framed (12px radius). About page only. |
 | `public/img/work/lincoln-home.jpg`, `lincoln-meeting.jpg` (2000×1250) | Live Lincoln Township site |
 | `public/img/work/hope-blurred.jpg` | Pre-blurred Hope screenshot. The sharp one must never be added to the repo: the site is not launched. |

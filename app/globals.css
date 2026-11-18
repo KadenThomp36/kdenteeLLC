@@ -83,17 +83,6 @@
     transform: none;
   }
 
-  /* Hero portrait: no frame; left, right and bottom edges fade into the page
-     (three gradients intersected). The left fade (8%) only reaches the jacket. */
-  .hero-portrait {
-    --fade-x: linear-gradient(to right, transparent, #000 8%, #000 78%, transparent);
-    --fade-y: linear-gradient(to bottom, #000 82%, transparent);
-    -webkit-mask-image: var(--fade-x), var(--fade-y);
-    -webkit-mask-composite: source-in;
-    mask-image: var(--fade-x), var(--fade-y);
-    mask-composite: intersect;
-  }
-
   /* ---- Under-construction shot (ConstructionShot) ---- */
   .wip {
     container-type: inline-size;
