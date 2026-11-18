@@ -234,6 +234,23 @@
 @keyframes hero-rise {
   from { opacity: 0; transform: translateY(8px); }
 }
+@keyframes underline-draw {
+  from { clip-path: inset(0 100% 0 0); }
+}
+
+/* The drawn underline beneath "Kdentee" (DrawnUnderline). Sized in em so it follows the h1.
+   Fully visible by default; when motion is allowed it is wiped on from the left just after the
+   headline lands, quick through the body of the stroke and slow through the fine tail. */
+.drawn-underline {
+  position: absolute;
+  left: -0.03em;
+  top: calc(100% - 0.13em);
+  width: calc(100% + 0.09em);
+  height: 0.2em;
+  color: theme("colors.pink.DEFAULT");
+  clip-path: inset(0);
+  pointer-events: none;
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .hero-enter-portrait {
@@ -242,5 +259,8 @@
   .hero-enter {
     animation: hero-rise 280ms var(--ease-out) both;
     animation-delay: var(--hero-delay, 0ms);
+  }
+  .drawn-underline {
+    animation: underline-draw 900ms cubic-bezier(0.3, 0, 0.1, 1) 380ms both;
   }
 }
