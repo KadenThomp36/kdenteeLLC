@@ -34,8 +34,8 @@ what he has built, what he does, and how to reach him.
 
 Pink is rare. On any screen it should appear on one button, link underlines, and nothing else.
 The one exception is the drawn underline beneath "Kdentee" in the home hero (`DrawnUnderline`):
-a single tapered stroke, thickest early and running out to a fine tail, never a scribble and
-never repeated elsewhere.
+a single round-ended brush stroke with a slight arc, fullest early and a little slimmer at both
+ends, never a scribble and never repeated elsewhere.
 No pink headings, no pink words inside headings, no tinted backgrounds, no glows, no shadows on
 cards or buttons. The only gradients allowed are the mask fade on the hero portrait and the
 sheen on the construction tape.
@@ -87,7 +87,7 @@ sheen on the construction tape.
   `@media (prefers-reduced-motion: no-preference)`.
 - As part of that same moment, the underline beneath "Kdentee" is wiped on from the left once
   the headline has landed (900ms, `cubic-bezier(0.3, 0, 0.1, 1)`, 380ms delay): quick through
-  the body of the stroke, slow through the tail. It is fully visible when motion is reduced.
+  the body of the stroke, slow as it finishes. It is fully visible when motion is reduced.
 - No scroll-triggered animation, no fade-up on sections, no hover lift on images.
 - Buttons: `transform: scale(0.97)` on `:active`, colour change on hover, transitions on
   `background-color, transform` only, 150ms ease-out. Never `transition: all`.

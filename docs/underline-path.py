@@ -1,14 +1,14 @@
 """Generate the tapered underline drawn beneath "Kdentee" in the home hero.
 
-Prints the SVG path for a 212 x 16 viewBox: a filled, variable-width stroke that tapers in
-from a point, runs full through the middle, and tapers out to a soft tip. Paste it into
+Prints the SVG path for a 212 x 16 viewBox: a filled, variable-width stroke with round ends:
+a little slimmer where it starts, fullest early on, slimmer again where it finishes. Paste it into
 components/ui/DrawnUnderline.tsx.
 usage: python docs/underline-path.py
 """
 import math
 
 W, H = 212.0, 16.0
-X0, X1 = 2.0, 209.0          # stroke runs between these x positions
+X0, X1 = 4.6, 206.6          # stroke runs between these x positions
 HMAX = 3.85                  # half of the maximum thickness, in viewBox units
 N = 30                       # samples per edge
 
@@ -17,9 +17,12 @@ def spine(t):                # an arc: sags through the middle, then lifts into 
     y = 6.0 + 3.25 * math.sin(math.pi * t) - 2.4 * t ** 2
     return x, y
 
-def half_width(t):           # tapers in from a point, full through the middle, tapers out to a soft tip
-    rise = math.sin(math.pi / 2 * min(t / 0.17, 1.0)) ** 0.85
-    fall = 1.0 if t <= 0.4 else max(1 - ((t - 0.4) / 0.6) ** 2.4, 0.0) ** 0.9
+def smooth(x):
+    x = min(max(x, 0.0), 1.0); return x * x * (3 - 2 * x)
+
+def half_width(t):           # round at both ends: a little slimmer at the start, fullest early, slimmer again at the end
+    rise = 0.62 + 0.38 * smooth(t / 0.30)
+    fall = 1.0 - 0.50 * smooth((t - 0.45) / 0.55)
     return HMAX * rise * fall
 
 def normal(t, e=1e-3):
@@ -44,9 +47,17 @@ def catmull(pts):            # smooth cubic Bezier segments through the points
         out.append("C%.2f %.2f %.2f %.2f %.2f %.2f" % (*c1, *c2, *p2))
     return out
 
+K = 0.5523                   # cubic approximation of a quarter circle
+
+def cap(t, forward):         # half-round end: from one edge, around the tip, to the other edge
+    (cx, cy), (nx, ny), r = spine(t), normal(t), half_width(t)
+    dx, dy = (ny, -nx) if forward else (-ny, nx)          # along the stroke, away from its body
+    s1 = -1 if forward else 1                              # which edge the cap starts from
+    a = (cx + s1 * nx * r, cy + s1 * ny * r); b = (cx - s1 * nx * r, cy - s1 * ny * r)
+    tip = (cx + dx * r, cy + dy * r)
+    return ("C%.2f %.2f %.2f %.2f %.2f %.2f" % (a[0] + dx * K * r, a[1] + dy * K * r, tip[0] + s1 * nx * K * r, tip[1] + s1 * ny * K * r, *tip)
+            + "C%.2f %.2f %.2f %.2f %.2f %.2f" % (tip[0] - s1 * nx * K * r, tip[1] - s1 * ny * K * r, b[0] + dx * K * r, b[1] + dy * K * r, *b))
+
 top, bot = edge(-1), edge(+1)
-r = half_width(0)            # rounded landing at the start
-shape = ["M%.2f %.2f" % top[0]] + catmull(top) + catmull(bot[::-1])
-shape.append("C%.2f %.2f %.2f %.2f %.2f %.2f" % (bot[0][0] - r * 1.33, bot[0][1], top[0][0] - r * 1.33, top[0][1], *top[0]))
-shape.append("Z")
+shape = ["M%.2f %.2f" % top[0]] + catmull(top) + [cap(1.0, True)] + catmull(bot[::-1]) + [cap(0.0, False), "Z"]
 print("".join(shape))

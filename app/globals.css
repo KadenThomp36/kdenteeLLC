@@ -240,7 +240,7 @@
 
 /* The drawn underline beneath "Kdentee" (DrawnUnderline). Sized in em so it follows the h1.
    Fully visible by default; when motion is allowed it is wiped on from the left just after the
-   headline lands, quick through the body of the stroke and slow through the fine tail. */
+   headline lands, quick through the body of the stroke and slow as it finishes. */
 .drawn-underline {
   position: absolute;
   left: -0.03em;
