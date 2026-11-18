@@ -1,7 +1,7 @@
 # kdentee-llc — Kdentee LLC business website
 
 Marketing site for Kaden's web-dev LLC (kdenteellc.com). Next.js 14 App Router, TypeScript,
-Tailwind 3, Framer Motion. Pages: `/`, `/services`, `/portfolio`, `/about`, `/contact`.
+Tailwind 3. Pages: `/`, `/work`, `/services`, `/about`, `/contact` (`/portfolio` redirects to `/work`).
 
 ## Running here (CT 129 dev)
 - Dev server: `npx next dev -H 0.0.0.0 -p 3410` (T3 "Dev server" script).
@@ -14,9 +14,15 @@ Tailwind 3, Framer Motion. Pages: `/`, `/services`, `/portfolio`, `/about`, `/co
   **Pushing to `main` deploys to production.** Work on a branch and push only when Kaden asks.
 
 ## Conventions
-- "Cosmic noir" look: dark surface (`surface` colors), pink `primary` (#E91E63) + violet accents,
-  gradient glows, Framer Motion entrance animations. New sections should match.
-- Theme tokens live in `tailwind.config.ts`; global styles in `app/globals.css`.
+- Design system (2026 redesign): quiet, light, typographic. `docs/redesign-brief.md` is the source of
+  truth for tokens, layout, motion rules and final copy. Paper `#F4F4F4` page, ink text, one pink
+  (`#D81B60`) used only for the primary button, link underlines and focus rings. Onest everywhere;
+  M PLUS Rounded 1c 800 for the wordmark only. No cards, gradients, glows or scroll animations.
+- Tokens live in `tailwind.config.ts` (colours, `text-h1/h2/h3/lede/body/small`, `rounded-control/image`,
+  `max-w-container/prose/heading`); global styles, the hero entrance and the construction tape in
+  `app/globals.css`. Build pages from `components/ui/` (Container, Section, PageIntro, Prose, Button,
+  TextLink, LedgerRows, BrowserShot, ConstructionShot, Quote, Wordmark); site facts in `lib/site.ts`,
+  township prices in `lib/plans.ts`.
 - Contact form posts to Web3Forms from the client (`app/contact/page.tsx`). That access key is
   public by design. Any real secret goes in `.env.local` (gitignored), never in code.
 - Google Analytics ID `G-7X2J418LQ8` is set in two places: `components/GoogleAnalytics.tsx` and
