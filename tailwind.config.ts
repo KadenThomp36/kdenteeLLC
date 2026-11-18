@@ -11,13 +11,13 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  // `dark:` matches the same rule as the colour variables: an explicit dark choice, or a dark
-  // system setting unless light was chosen explicitly (lib/theme.ts, app/globals.css).
+  // `dark:` matches the same rule as the colour variables: an explicit dark choice, or "auto" on
+  // a system set to dark. Light (no data-theme) is the default (lib/theme.ts, app/globals.css).
   darkMode: [
     "variant",
     [
-      "@media (prefers-color-scheme: dark) { &:not([data-theme=light] *) }",
       "&:is([data-theme=dark] *)",
+      "@media (prefers-color-scheme: dark) { &:is([data-theme=auto] *) }",
     ],
   ],
   future: {

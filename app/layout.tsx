@@ -7,7 +7,7 @@ import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { site, socialImage } from "@/lib/site";
-import { SYSTEM_MEDIA, themeColors, themeInitScript } from "@/lib/theme";
+import { META_OFF, META_ON, themeColors, themeInitScript } from "@/lib/theme";
 
 const onest = Onest({
   subsets: ["latin"],
@@ -44,12 +44,12 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image", images: [socialImage] },
 };
 
-// Browser UI colour follows the page's paper. These two cover "auto"; an explicit choice from the
-// footer toggle retargets their media (lib/theme.ts).
+// Browser UI colour follows the page's paper: light by default, whatever the system says. A dark
+// or auto choice from the footer toggle retargets their media (lib/theme.ts).
 export const viewport: Viewport = {
   themeColor: [
-    { media: SYSTEM_MEDIA.light, color: themeColors.light },
-    { media: SYSTEM_MEDIA.dark, color: themeColors.dark },
+    { media: META_ON, color: themeColors.light },
+    { media: META_OFF, color: themeColors.dark },
   ],
 };
 
@@ -60,7 +60,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         {/* Before first paint: apply a stored theme choice so it never flashes the wrong one. */}
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
-        {/* Without JavaScript the site follows the system and the toggle could do nothing. */}
+        {/* Without JavaScript the site is light and the toggle could do nothing. */}
         <noscript>
           <style>{".theme-toggle{display:none}"}</style>
         </noscript>

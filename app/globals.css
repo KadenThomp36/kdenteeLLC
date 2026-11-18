@@ -7,8 +7,8 @@
 @layer base {
   /* ---- Colour tokens ----
      Space-separated RGB channels, read by tailwind.config.ts as rgb(var(--c-…) / <alpha>).
-     Theme choice (lib/theme.ts): no data-theme attribute on <html> = follow the system;
-     data-theme="light" | "dark" = an explicit choice from the footer toggle.
+     Theme choice (lib/theme.ts): no data-theme attribute on <html> = light (the default, and the
+     no-JavaScript state); data-theme="dark" = dark; data-theme="auto" = follow the system.
      Changes apply instantly: never transition colours on a theme switch. */
   :root {
     --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
@@ -30,27 +30,27 @@
   }
 
   /* Dark. These two blocks must stay identical (CSS cannot share one declaration block between
-     a media query and a plain selector): the first is the system preference when nothing was
-     chosen, the second an explicit choice that overrides the system. */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      color-scheme: dark;
-      --c-paper: 23 20 26;       /* #17141A */
-      --c-surface: 31 27 35;     /* #1F1B23 */
-      --c-ink: 242 239 243;      /* #F2EFF3 */
-      --c-graphite: 169 161 174; /* #A9A1AE */
-      --c-rule: 51 45 56;        /* #332D38 */
-      --c-pink-text: 240 106 153; /* #F06A99 */
-    }
-  }
+     a media query and a plain selector): the first is an explicit dark choice, the second "auto"
+     on a system set to dark. */
   :root[data-theme="dark"] {
     color-scheme: dark;
-    --c-paper: 23 20 26;
-    --c-surface: 31 27 35;
-    --c-ink: 242 239 243;
-    --c-graphite: 169 161 174;
-    --c-rule: 51 45 56;
-    --c-pink-text: 240 106 153;
+    --c-paper: 23 20 26;       /* #17141A */
+    --c-surface: 31 27 35;     /* #1F1B23 */
+    --c-ink: 242 239 243;      /* #F2EFF3 */
+    --c-graphite: 169 161 174; /* #A9A1AE */
+    --c-rule: 51 45 56;        /* #332D38 */
+    --c-pink-text: 240 106 153; /* #F06A99 */
+  }
+  @media (prefers-color-scheme: dark) {
+    :root[data-theme="auto"] {
+      color-scheme: dark;
+      --c-paper: 23 20 26;
+      --c-surface: 31 27 35;
+      --c-ink: 242 239 243;
+      --c-graphite: 169 161 174;
+      --c-rule: 51 45 56;
+      --c-pink-text: 240 106 153;
+    }
   }
 
   html {
@@ -114,6 +114,41 @@
     height: 44px;
     min-height: 100%;
     transform: translateY(-50%);
+  }
+
+  /* ---- Footer theme control (ThemeToggle) ----
+     One pink bar slides under the hovered (or else the selected) option. It sits where a link's
+     underline would: the baseline is 15px into the 21px line of text-small, plus the 4px underline
+     offset. Until the component has measured the options, the selected one draws the same 1.5px
+     line as a background instead, so server HTML and the handoff look identical. */
+  .theme-toggle {
+    --underline-y: 19px;
+  }
+  .theme-underline {
+    background: linear-gradient(rgb(var(--c-pink)) 0 0) 0 var(--underline-y) / 100% 1.5px no-repeat;
+  }
+  .theme-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    /* Wider than any option, so it only ever scales down. The component sets `top` and
+       transform: translateX(x) scaleX(width / 100). The line is drawn as a 1.5px background
+       band, like .theme-underline: a plain background fill would be widened to whole pixels. */
+    width: 100px;
+    height: 1.5px;
+    background: linear-gradient(rgb(var(--c-pink)) 0 0) 0 0 / 100% 1.5px no-repeat;
+    transform-origin: 0 0;
+    pointer-events: none;
+    will-change: transform;
+    /* Movement between two on-screen spots, so ease-in-out: a short ease-in so it leaves the
+       moment the pointer arrives (and a retarget mid-slide barely hesitates), a longer ease-out
+       so it settles rather than stops. Halfway in ~100ms, 90% by ~160ms. */
+    transition: transform 240ms cubic-bezier(0.55, 0, 0.25, 1);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .theme-bar {
+      transition: none;
+    }
   }
 
   /* Skip link: hidden until focused. */

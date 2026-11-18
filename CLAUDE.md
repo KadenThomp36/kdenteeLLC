@@ -19,8 +19,11 @@ Tailwind 3. Pages: `/`, `/work`, `/services`, `/about`, `/contact` (`/portfolio`
   (`#D81B60`) used only for the primary button, link underlines and focus rings. Onest everywhere;
   M PLUS Rounded 1c 800 for the wordmark only. No cards, gradients, glows or scroll animations.
 - Light and dark themes: every colour is a CSS variable with a light and a dark value in
-  `app/globals.css`. Visitors pick Auto (default), Light or Dark in the footer (`lib/theme.ts`,
-  `components/layout/ThemeToggle.tsx`). Check both themes when changing anything visual.
+  `app/globals.css`. Light is the default (no `data-theme` on `<html>`); visitors can pick Dark
+  or Auto in the footer (`lib/theme.ts`, `components/layout/ThemeToggle.tsx`), which sets
+  `data-theme="dark"` or `"auto"`. The `dark:` variant means explicit dark, or auto with a dark
+  system. Elements with `data-keep-transition` keep their transitions during a theme switch.
+  Check both themes when changing anything visual.
 - `tailwind.config.ts` ends with `module.exports` on purpose: on Node 24 the dev server cannot
   reload it if it uses `export default`.
 - Tokens live in `tailwind.config.ts` (colours, `text-h1/h2/h3/lede/body/small`, `rounded-control/image`,

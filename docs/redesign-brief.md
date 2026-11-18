@@ -37,14 +37,17 @@ dark value, exposed to Tailwind in `tailwind.config.ts`.
 | `tape` | `#F7C600` | same | Only the "under construction" tape |
 | `white` | `#FFFFFF` | same | Text on the pink button |
 
-**Themes.** Three choices: Auto (the default, follows the system), Light, Dark. An explicit
-choice sets `data-theme` on `<html>` and is stored in `localStorage` under `theme`; a small
-script in `<head>` applies it before first paint. The control is a radio group in the footer,
-on its own line under the footer row, styled like the text navigation ("Theme" then Auto,
-Light, Dark; the selected option has the pink underline). No icons, and no colour transition
-when the theme switches. Use the `dark:` Tailwind variant only where a token is not enough.
-Screenshots of client sites, the Koan banner and the About portrait are pictures of light
-things and stay as they are in dark.
+**Themes.** Light is the default, also with JavaScript off. The footer control offers Light,
+Dark and Auto (follow the system) in that order, on its own line under the footer row. Dark
+and Auto set `data-theme` on `<html>` and are stored in `localStorage` under `theme`; a small
+script in `<head>` applies them before first paint. The control is a radio group styled like
+the text navigation, with no icons. One 1.5px pink bar sits under the selected option and
+slides under whichever option is hovered or focused, then back (240ms,
+`cubic-bezier(0.55, 0, 0.25, 1)`, transform only, no sliding under reduced motion). That bar is
+the one moving underline on the site; the header nav keeps per-link underlines. Page colours
+switch instantly, with no colour transition. Use the `dark:` Tailwind variant only where a
+token is not enough. Screenshots of client sites, the Koan banner and the About portrait are
+pictures of light things and stay as they are in dark.
 
 Pink is rare. On any screen it should appear on one button, link underlines, and nothing else.
 The one exception is the drawn underline beneath "Kdentee" in the home hero (`DrawnUnderline`):
@@ -155,7 +158,7 @@ Put these in `components/ui/` unless noted:
 Header: wordmark (links home) left; nav right: Work, Services, About, Contact.
 
 Footer, one quiet row (stacks on mobile): "Kdentee LLC, Waterford, Michigan" · the email as a
-link · "GitHub" linking to https://github.com/KadenThomp36 · "© {year}". Below the row, the Theme line (Auto, Light, Dark).
+link · "GitHub" linking to https://github.com/KadenThomp36 · "© {year}". Below the row, the Theme line (Light, Dark, Auto).
 
 ## Assets (already in place; do not regenerate)
 
