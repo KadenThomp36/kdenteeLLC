@@ -246,7 +246,7 @@
   left: -0.03em;
   top: calc(100% - 0.13em);
   width: calc(100% + 0.09em);
-  height: 0.2em;
+  height: 0.2333em; /* 14 viewBox units at the same scale as the 212-unit width */
   color: theme("colors.pink.DEFAULT");
   clip-path: inset(0);
   pointer-events: none;

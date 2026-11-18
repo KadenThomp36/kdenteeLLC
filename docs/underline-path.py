@@ -1,20 +1,20 @@
 """Generate the tapered underline drawn beneath "Kdentee" in the home hero.
 
-Prints the SVG path for a 212 x 12 viewBox: a filled, variable-width stroke that is pressed
+Prints the SVG path for a 212 x 14 viewBox: a filled, variable-width stroke that is pressed
 down at the start, swells, then runs out in a long taper. Paste it into
 components/ui/DrawnUnderline.tsx.
 usage: python docs/underline-path.py
 """
 import math
 
-W, H = 212.0, 12.0
+W, H = 212.0, 14.0
 X0, X1 = 2.0, 209.0          # stroke runs between these x positions
-HMAX = 2.45                  # half of the maximum thickness, in viewBox units
+HMAX = 3.05                  # half of the maximum thickness, in viewBox units
 N = 18                       # samples per edge
 
-def spine(t):                # a relaxed line: settles slightly, then lifts into the tail
+def spine(t):                # an arc: sags through the middle, then lifts into the tail
     x = X0 + (X1 - X0) * t
-    y = 6.3 + 1.0 * math.sin(2.3 * t) - 3.3 * t ** 2.2
+    y = 5.4 + 3.25 * math.sin(math.pi * t) - 2.4 * t ** 2
     return x, y
 
 def half_width(t):           # pen pressure: lands with some weight, swells early, long fine taper
