@@ -223,11 +223,11 @@ Then a text link: See services and prices [link: /services]
 
 - Intro: Most evenings I'm working on something of my own. A few of them:
 - The Koan banner image, full container width, 12px radius, 1px rule border (alt: Koan, a quiet browser for the Mac)
-- Ledger rows:
-  - Koan: A native web browser for the Mac, with vertical tabs and workspaces.
-  - Marquee: The TV and movie tracker my household uses, running on my own server.
-  - Crate: An inventory system for physical things, down to which box is on which shelf.
-- Text link: More on the work page [link: /work#own]
+- The full project list from `components/SideProjects.tsx`, the same component the Work page
+  uses, so both pages always show every project and every project is linked (see the Work
+  section below for the rows; Koan links to its public downloads repository because its source
+  is private).
+- Text link: Everything else is on GitHub [link: https://github.com/KadenThomp36]
 
 **Get in touch** (h2)
 
@@ -270,7 +270,7 @@ Then a text link: See services and prices [link: /services]
 - Intro: These are projects I built because I wanted them to exist.
 - The Koan banner image.
 - Ledger rows. Where a link is given, the project name is the link (new tab):
-  - Koan: A native web browser for the Mac, with vertical tabs and workspaces.
+  - Koan [link: https://github.com/KadenThomp36/koan-updates]: A native web browser for the Mac, with vertical tabs and workspaces.
   - Marquee [link: https://github.com/KadenThomp36/marquee]: The TV and movie tracker my household uses, running on my own server.
   - Crate [link: https://github.com/KadenThomp36/crate]: An inventory system for physical things, down to which box is on which shelf.
   - Home Assistant cards: Open source dashboard cards for Home Assistant: a timeline [link: https://github.com/KadenThomp36/chronicle-card], an air quality monitor [link: https://github.com/KadenThomp36/air-quality-card] and a garage view [link: https://github.com/KadenThomp36/garage-card].

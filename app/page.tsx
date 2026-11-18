@@ -11,7 +11,8 @@ import ConstructionShot from "@/components/ui/ConstructionShot";
 import DrawnUnderline from "@/components/ui/DrawnUnderline";
 import Quote from "@/components/ui/Quote";
 import ScrollRegion from "@/components/ui/ScrollRegion";
-import { mailto, site, testimonial } from "@/lib/site";
+import SideProjects from "@/components/SideProjects";
+import { externalUrls, mailto, site, testimonial } from "@/lib/site";
 import heroPortrait from "@/public/img/kaden-hero.jpg";
 import heroPortraitMobile from "@/public/img/kaden-hero-mobile.jpg";
 import koanBanner from "@/public/img/koan-banner.png";
@@ -114,19 +115,9 @@ export default function HomePage() {
             className="block h-auto w-full"
           />
         </div>
-        <LedgerRows compact className="mt-8 md:mt-10">
-          <LedgerRow label="Koan">
-            <p>A native web browser for the Mac, with vertical tabs and workspaces.</p>
-          </LedgerRow>
-          <LedgerRow label="Marquee">
-            <p>The TV and movie tracker my household uses, running on my own server.</p>
-          </LedgerRow>
-          <LedgerRow label="Crate">
-            <p>An inventory system for physical things, down to which box is on which shelf.</p>
-          </LedgerRow>
-        </LedgerRows>
+        <SideProjects className="mt-8 md:mt-10" />
         <p className="mt-8">
-          <TextLink href="/work#own" standalone>More on the work page</TextLink>
+          <TextLink external standalone href={externalUrls.github}>Everything else is on GitHub</TextLink>
         </p>
       </Section>
 

@@ -8,6 +8,7 @@ import LedgerRows, { LedgerRow } from "@/components/ui/LedgerRows";
 import BrowserShot from "@/components/ui/BrowserShot";
 import ConstructionShot from "@/components/ui/ConstructionShot";
 import Quote from "@/components/ui/Quote";
+import SideProjects from "@/components/SideProjects";
 import { externalUrls, pageMetadata, testimonial } from "@/lib/site";
 import koanBanner from "@/public/img/koan-banner.png";
 
@@ -122,28 +123,7 @@ export default function WorkPage() {
             className="block h-auto w-full"
           />
         </div>
-        <LedgerRows className="mt-8 md:mt-10">
-          <LedgerRow label="Koan">
-            <p>A native web browser for the Mac, with vertical tabs and workspaces.</p>
-          </LedgerRow>
-          <LedgerRow label={<TextLink external standalone href={externalUrls.marquee}>Marquee</TextLink>}>
-            <p>The TV and movie tracker my household uses, running on my own server.</p>
-          </LedgerRow>
-          <LedgerRow label={<TextLink external standalone href={externalUrls.crate}>Crate</TextLink>}>
-            <p>An inventory system for physical things, down to which box is on which shelf.</p>
-          </LedgerRow>
-          <LedgerRow label="Home Assistant cards">
-            <p>
-              Open source dashboard cards for Home Assistant: a{" "}
-              <TextLink external href={externalUrls.chronicleCard}>timeline</TextLink>, an{" "}
-              <TextLink external href={externalUrls.airQualityCard}>air quality monitor</TextLink> and
-              a <TextLink external href={externalUrls.garageCard}>garage view</TextLink>.
-            </p>
-          </LedgerRow>
-          <LedgerRow label={<TextLink external standalone href={externalUrls.ankh}>Ankh</TextLink>}>
-            <p>A flashcard app for the terminal, written in Rust.</p>
-          </LedgerRow>
-        </LedgerRows>
+        <SideProjects className="mt-8 md:mt-10" />
         <p className="mt-8">
           <TextLink external standalone href={externalUrls.github}>Everything else is on GitHub</TextLink>
         </p>

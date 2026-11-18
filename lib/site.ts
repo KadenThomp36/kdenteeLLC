@@ -28,6 +28,8 @@ export const navItems: NavItem[] = [
 export const externalUrls = {
   github: "https://github.com/KadenThomp36",
   lincolnSite: "https://www.lincolntwp-midland.gov",
+  // Koan's source is private; this public repository holds its downloads and update feed.
+  koan: "https://github.com/KadenThomp36/koan-updates",
   marquee: "https://github.com/KadenThomp36/marquee",
   crate: "https://github.com/KadenThomp36/crate",
   chronicleCard: "https://github.com/KadenThomp36/chronicle-card",
