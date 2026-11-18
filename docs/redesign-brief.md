@@ -43,8 +43,10 @@ and Auto set `data-theme` on `<html>` and are stored in `localStorage` under `th
 script in `<head>` applies them before first paint. The control is a radio group styled like
 the text navigation, with no icons. One 1.5px pink bar sits under the selected option and
 slides under whichever option is hovered or focused, then back (240ms,
-`cubic-bezier(0.55, 0, 0.25, 1)`, transform only, no sliding under reduced motion). That bar is
-the one moving underline on the site; the header nav keeps per-link underlines. Page colours
+`cubic-bezier(0.55, 0, 0.25, 1)`, transform only, no sliding under reduced motion). The header
+nav uses the same bar (`.slide-bar`): it rests under the current page's link and slides under
+the hovered or focused link; on pages with no current link it fades in under the hovered link
+and out again. Page colours
 switch instantly, with no colour transition. Use the `dark:` Tailwind variant only where a
 token is not enough. Screenshots of client sites, the Koan banner and the About portrait are
 pictures of light things and stay as they are in dark.

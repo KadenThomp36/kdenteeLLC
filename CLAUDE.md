@@ -23,6 +23,8 @@ Tailwind 3. Pages: `/`, `/work`, `/services`, `/about`, `/contact` (`/portfolio`
   or Auto in the footer (`lib/theme.ts`, `components/layout/ThemeToggle.tsx`), which sets
   `data-theme="dark"` or `"auto"`. The `dark:` variant means explicit dark, or auto with a dark
   system. Elements with `data-keep-transition` keep their transitions during a theme switch.
+- One sliding pink bar marks the hovered/current item in both the header nav (`NavLinks`) and
+  the footer theme control (`.slide-bar` / `.theme-bar` in `app/globals.css`).
   Check both themes when changing anything visual.
 - `tailwind.config.ts` ends with `module.exports` on purpose: on Node 24 the dev server cannot
   reload it if it uses `export default`.

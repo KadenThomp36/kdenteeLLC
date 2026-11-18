@@ -127,7 +127,8 @@
   .theme-underline {
     background: linear-gradient(rgb(var(--c-pink)) 0 0) 0 var(--underline-y) / 100% 1.5px no-repeat;
   }
-  .theme-bar {
+  .theme-bar,
+  .slide-bar {
     position: absolute;
     left: 0;
     top: 0;
@@ -145,10 +146,29 @@
        so it settles rather than stops. Halfway in ~100ms, 90% by ~160ms. */
     transition: transform 240ms cubic-bezier(0.55, 0, 0.25, 1);
   }
+  /* The header nav's bar (NavLinks) is the same bar; it also fades, because on pages with no
+     current link it appears under the hovered link and disappears again. */
+  .slide-bar {
+    transition:
+      transform 240ms cubic-bezier(0.55, 0, 0.25, 1),
+      opacity 150ms ease-out;
+  }
   @media (prefers-reduced-motion: reduce) {
-    .theme-bar {
+    .theme-bar,
+    .slide-bar {
       transition: none;
     }
+  }
+  /* Before NavLinks has measured, the current page's link draws the same line itself: the
+     baseline sits 15/14 em into the line, plus the 4px underline offset. */
+  .nav-underline::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(1.0714em + 4px);
+    height: 1.5px;
+    background: linear-gradient(rgb(var(--c-pink)) 0 0) 0 0 / 100% 1.5px no-repeat;
   }
 
   /* Skip link: hidden until focused. */
