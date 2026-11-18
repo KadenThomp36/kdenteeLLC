@@ -6,6 +6,7 @@ import { navItems } from "@/lib/site";
 import { trackNavigation } from "@/lib/analytics";
 
 // Main nav. Client-only because it marks the current page (aria-current + pink underline).
+// Other items get the same underline on hover.
 export default function NavLinks() {
   const pathname = usePathname();
   return (
@@ -19,8 +20,11 @@ export default function NavLinks() {
                 href={item.href}
                 aria-current={current ? "page" : undefined}
                 onClick={() => trackNavigation(item.label)}
-                className={`-my-3 block rounded-control px-1.5 py-3 transition-colors min-[400px]:px-2 sm:px-3 md:px-4 duration-150 ease-out ${
-                  current ? "text-link text-ink" : "text-graphite hover:text-ink"
+                className={`-my-3 block rounded-control px-1.5 py-3 min-[400px]:px-2 sm:px-3 md:px-4 ${
+                  current
+                    ? "text-link text-ink"
+                    : // Same pink underline as the current page, faded in on hover.
+                      "text-graphite underline decoration-transparent decoration-[1.5px] underline-offset-4 transition-[color,text-decoration-color] duration-150 ease-out hover:text-ink hover:decoration-pink"
                 }`}
               >
                 {item.label}
