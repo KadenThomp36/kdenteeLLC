@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Onest } from "next/font/google";
 import localFont from "next/font/local";
 import { Analytics } from "@vercel/analytics/next";
@@ -7,6 +7,7 @@ import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { site, socialImage } from "@/lib/site";
+import { SYSTEM_MEDIA, themeColors, themeInitScript } from "@/lib/theme";
 
 const onest = Onest({
   subsets: ["latin"],
@@ -43,9 +44,27 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image", images: [socialImage] },
 };
 
+// Browser UI colour follows the page's paper. These two cover "auto"; an explicit choice from the
+// footer toggle retargets their media (lib/theme.ts).
+export const viewport: Viewport = {
+  themeColor: [
+    { media: SYSTEM_MEDIA.light, color: themeColors.light },
+    { media: SYSTEM_MEDIA.dark, color: themeColors.dark },
+  ],
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${onest.variable} ${wordmark.variable}`}>
+    // suppressHydrationWarning: themeInitScript sets data-theme on <html> before React hydrates.
+    <html lang="en" className={`${onest.variable} ${wordmark.variable}`} suppressHydrationWarning>
+      <head>
+        {/* Before first paint: apply a stored theme choice so it never flashes the wrong one. */}
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        {/* Without JavaScript the site follows the system and the toggle could do nothing. */}
+        <noscript>
+          <style>{".theme-toggle{display:none}"}</style>
+        </noscript>
+      </head>
       <body className="flex min-h-dvh flex-col">
         <a href="#content" className="skip-link">
           Skip to content

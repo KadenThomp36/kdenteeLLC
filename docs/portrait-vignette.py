@@ -1,7 +1,13 @@
 """Grade the hero portrait and bake a vignetted-bust dissolve into it.
 
-usage: python vignette.py <source.jpg> <out.jpg> [--mobile] [--debug]
-The result is flattened onto the site's paper colour (#F4F4F4), so it needs no CSS mask.
+usage: python docs/portrait-vignette.py <source.jpg> <out.jpg|out.webp> [--mobile] [--dark] [--debug]
+The result is flattened onto the site's light paper colour (#F4F4F4), so it needs no CSS mask.
+
+--dark: for the dark theme. The white studio backdrop cannot be recoloured, so the subject is
+cut out instead and saved as a transparent WebP that sits on any dark page colour. This uses
+alpha matting followed by foreground estimation (needs the `pymatting` package), so fine hair
+keeps its detail and no white halo survives. The same dissolve, grain and presets apply.
+Run with: uv run --with pymatting --with pillow --with numpy --with scipy python docs/portrait-vignette.py ...
 
 Default: the desktop file, public/img/kaden-hero.jpg (1067x1130).
 --mobile: public/img/kaden-hero-mobile.jpg, a shorter bust for the phone hero, where the h1's
@@ -70,6 +76,61 @@ alpha_g = np.clip(alpha + grain * 0.075 * (4 * alpha * (1 - alpha)), 0, 1)
 res = img * alpha_g + PAPER * (1 - alpha_g)
 res += (rng.random((H, W)) - rng.random((H, W))) * 0.5 * (alpha > 0) * (alpha < 1)
 res = np.where(alpha <= 0, PAPER, res)[:OUT_H]
+if "--dark" in sys.argv:
+    # Alpha matting, then foreground estimation: the two-step method compositors use for hair.
+    # 1) a trimap says which pixels are certainly subject, certainly backdrop, or unknown;
+    # 2) closed-form matting solves the opacity of the unknown pixels (PyMatting);
+    # 3) the true subject colour of edge pixels is estimated with the backdrop's white taken
+    #    out, which is what removes the halo.
+    from pymatting import estimate_alpha_cf, estimate_foreground_ml
+    backdrop = np.isin(lab, keep); subject = ~backdrop
+    adj64 = adj.astype(np.float64)
+    depth = ndi.distance_transform_edt(subject)              # how far inside the outline
+    outside = ndi.distance_transform_edt(backdrop)
+    soft = ndi.gaussian_filter(adj64, 0.8)
+    sub = subject.astype(np.float64)                         # tone of the surrounding subject only
+    around = ndi.gaussian_filter(adj64 * sub, 14) / np.maximum(ndi.gaussian_filter(sub, 14), 1e-3)
+
+    # certainly backdrop: clear of the outline with no dark strand nearby (so long flyaway hairs
+    # stay unknown and get solved), plus clean bright backdrop enclosed by loops of hair
+    sure_bg = backdrop & (outside > 12) & (ndi.minimum_filter(soft, size=7) > 205)
+    sure_bg |= backdrop & (outside > 3) & (ndi.minimum_filter(soft, size=3) > 212)
+    # certainly subject: dark pixels, or anything deep inside except small bright islands
+    bright_in = subject & (soft > 205)
+    blab, nb = ndi.label(bright_in)
+    island = np.isin(blab, 1 + np.flatnonzero(ndi.sum(bright_in, blab, index=np.arange(1, nb + 1)) < 4000))
+    sure_fg = (subject & (soft < 55) & (depth >= 2)) | ((depth >= 34) & ~ndi.binary_dilation(island, iterations=3))
+    sure_fg = ndi.binary_opening(sure_fg, iterations=1)
+    # gaps in the hair: small bright islands set in dark hair are backdrop showing through
+    glab, ng = ndi.label(subject & (soft > 205) & (depth < 130))
+    idx = np.arange(1, ng + 1)
+    ok = ((ndi.sum(np.ones_like(adj64), glab, index=idx) >= 3) & (ndi.sum(np.ones_like(adj64), glab, index=idx) < 2500)
+          & (ndi.mean(around, glab, index=idx) < 150) & (ndi.mean(np.indices(adj.shape)[0], glab, index=idx) < 600))
+    holes = np.isin(glab, 1 + np.flatnonzero(ok)) & (soft > 214)
+    sure_bg |= holes
+    sure_fg &= ~ndi.binary_dilation(holes, iterations=3)
+    trimap = np.full(adj.shape, 0.5); trimap[sure_bg] = 0.0; trimap[sure_fg] = 1.0
+
+    rgb = np.repeat((adj64 / 255.0)[:, :, None], 3, axis=2)
+    matte = estimate_alpha_cf(rgb, trimap)
+    # See-through hair: where sparse strands cross the backdrop inside a loop of hair, nothing
+    # tells the solver the light between them is backdrop. There the answer is known in closed
+    # form, because the backdrop tone B and the hair tone F are both known:
+    # alpha = (B - C) / (B - F).
+    B = float(np.median(adj64[sure_bg]))
+    key = np.clip((B - adj64) / np.maximum(B - ndi.minimum_filter(soft, size=21), 1.0), 0, 1)
+    mesh = ((trimap == 0.5) & subject & (depth < 34) & (around < 115)).astype(np.float64)
+    light = np.clip((soft - 60) / 60, 0, 1)                  # leave the darkest hair pixels to the solver
+    w = np.clip(ndi.gaussian_filter(mesh, 1.5) * 1.6, 0, 1) * light * light * (3 - 2 * light)
+    matte = matte * (1 - w) + np.minimum(matte, key) * w
+    colour = estimate_foreground_ml(rgb, matte)[:, :, 0] * 255.0
+    unmixed = np.clip((adj64 - (1 - matte) * B) / np.maximum(matte, 0.04), 0, 255)
+    colour = np.minimum(colour, colour * (1 - w) + np.minimum(colour, unmixed) * w)
+    colour = colour * (1 - gaps) + 15.0 * gaps
+    a8 = np.clip(np.rint(matte * alpha_g * 255), 0, 255).astype(np.uint8)[:OUT_H]
+    g8 = np.clip(np.rint(colour), 0, 255).astype(np.uint8)[:OUT_H]
+    Image.merge("RGBA", [Image.fromarray(g8)] * 3 + [Image.fromarray(a8)]).save(out, quality=84, method=6, exact=True)
+    print("dark cutout saved", out, (W, OUT_H)); sys.exit()
 Image.fromarray(np.clip(np.rint(res), 0, 255).astype(np.uint8)).save(out, quality=95, subsampling=0)
 if "--debug" in sys.argv:
     Image.fromarray((alpha[:OUT_H] * 255).astype(np.uint8)).save(out.replace(".jpg", "-alpha.png"))

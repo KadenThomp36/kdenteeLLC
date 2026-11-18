@@ -18,6 +18,11 @@ Tailwind 3. Pages: `/`, `/work`, `/services`, `/about`, `/contact` (`/portfolio`
   truth for tokens, layout, motion rules and final copy. Paper `#F4F4F4` page, ink text, one pink
   (`#D81B60`) used only for the primary button, link underlines and focus rings. Onest everywhere;
   M PLUS Rounded 1c 800 for the wordmark only. No cards, gradients, glows or scroll animations.
+- Light and dark themes: every colour is a CSS variable with a light and a dark value in
+  `app/globals.css`. Visitors pick Auto (default), Light or Dark in the footer (`lib/theme.ts`,
+  `components/layout/ThemeToggle.tsx`). Check both themes when changing anything visual.
+- `tailwind.config.ts` ends with `module.exports` on purpose: on Node 24 the dev server cannot
+  reload it if it uses `export default`.
 - Tokens live in `tailwind.config.ts` (colours, `text-h1/h2/h3/lede/body/small`, `rounded-control/image`,
   `max-w-container/prose/heading`); global styles, the hero entrance and the construction tape in
   `app/globals.css`. Build pages from `components/ui/` (Container, Section, PageIntro, Prose, Button,

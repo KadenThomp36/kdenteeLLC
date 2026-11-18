@@ -21,16 +21,30 @@ what he has built, what he does, and how to reach him.
 
 ### Colour (exactly these; no others, no gradients except the two noted)
 
-| Token | Hex | Use |
-|---|---|---|
-| `paper` | `#F4F4F4` | Page background. Must stay exactly this: the hero portrait's backdrop is graded to match it. |
-| `surface` | `#FFFFFF` | Form fields, image frames |
-| `ink` | `#201A23` | Headings and primary text |
-| `graphite` | `#5E5763` | Secondary text |
-| `rule` | `#E1DEE2` | 1px dividers and borders |
-| `pink` | `#D81B60` | The one brand colour: primary buttons, link underlines, the dot in the wordmark, focus rings, `::selection` |
-| `pink-deep` | `#AD1457` | Hover/active of pink buttons; pink text when text itself must be pink |
-| `tape` | `#F7C600` | Only the "under construction" tape |
+Every colour is a CSS variable (RGB channels, defined in `app/globals.css`) with a light and a
+dark value, exposed to Tailwind in `tailwind.config.ts`.
+
+| Token | Light | Dark | Use |
+|---|---|---|---|
+| `paper` | `#F4F4F4` | `#17141A` | Page background. The light value must stay exactly this: the light hero portraits are flattened onto it. |
+| `surface` | `#FFFFFF` | `#1F1B23` | Form fields, image frames |
+| `ink` | `#201A23` | `#F2EFF3` | Headings and primary text |
+| `graphite` | `#5E5763` | `#A9A1AE` | Secondary text |
+| `rule` | `#E1DEE2` | `#332D38` | 1px dividers and borders |
+| `pink` | `#D81B60` | same | The one brand colour: primary buttons, link underlines, the dot in the wordmark, focus rings, `::selection` |
+| `pink-deep` | `#AD1457` | same | Hover/active of pink buttons only |
+| `pink-text` | `#AD1457` | `#F06A99` | Pink text or borders on the page background (form errors, invalid fields) |
+| `tape` | `#F7C600` | same | Only the "under construction" tape |
+| `white` | `#FFFFFF` | same | Text on the pink button |
+
+**Themes.** Three choices: Auto (the default, follows the system), Light, Dark. An explicit
+choice sets `data-theme` on `<html>` and is stored in `localStorage` under `theme`; a small
+script in `<head>` applies it before first paint. The control is a radio group in the footer,
+on its own line under the footer row, styled like the text navigation ("Theme" then Auto,
+Light, Dark; the selected option has the pink underline). No icons, and no colour transition
+when the theme switches. Use the `dark:` Tailwind variant only where a token is not enough.
+Screenshots of client sites, the Koan banner and the About portrait are pictures of light
+things and stay as they are in dark.
 
 Pink is rare. On any screen it should appear on one button, link underlines, and nothing else.
 The one exception is the drawn underline beneath "Kdentee" in the home hero (`DrawnUnderline`):
@@ -141,7 +155,7 @@ Put these in `components/ui/` unless noted:
 Header: wordmark (links home) left; nav right: Work, Services, About, Contact.
 
 Footer, one quiet row (stacks on mobile): "Kdentee LLC, Waterford, Michigan" · the email as a
-link · "GitHub" linking to https://github.com/KadenThomp36 · "© {year}".
+link · "GitHub" linking to https://github.com/KadenThomp36 · "© {year}". Below the row, the Theme line (Auto, Light, Dark).
 
 ## Assets (already in place; do not regenerate)
 
@@ -149,6 +163,7 @@ link · "GitHub" linking to https://github.com/KadenThomp36 · "© {year}".
 |---|---|
 | `public/img/kaden-hero.jpg` (1067×1130) | Black-and-white portrait as a vignetted bust: the backdrop is exactly `#F4F4F4` and the chest dissolves into it with an eased, grain-dithered falloff baked into the file by `docs/portrait-vignette.py`. Hero only. Always show it whole and unoptimized, with no frame, crop or CSS mask. He looks toward the right, so the photo sits LEFT of the headline on desktop. |
 | `public/img/kaden-hero-mobile.jpg` (1067×950) | The same portrait with an earlier, shorter dissolve (`docs/portrait-vignette.py --mobile`), served below 768px so the headline can overlap its faded lower edge and stay legible. Same rules: whole, unoptimized, no mask. |
+| `public/img/kaden-hero-dark.webp` (1067×1130), `kaden-hero-mobile-dark.webp` (1067×950) | The same two portraits for the dark theme: transparent cut-outs made with `docs/portrait-vignette.py --dark` (alpha matting, then foreground estimation, so hair keeps its detail and carries no white halo). Shown with the `dark:` variant; only the visible theme's file is downloaded. On phones the headline must keep at least 7:1 contrast against the LIGHTEST pixel behind its first line. |
 | `public/img/kaden-about.jpg` (1067×1600) | Smiling portrait. Its backdrop does not match the page, so show it framed (12px radius). About page only. |
 | `public/img/work/lincoln-home.jpg`, `lincoln-meeting.jpg` (2000×1250) | Live Lincoln Township site |
 | `public/img/work/hope-blurred.jpg` | Pre-blurred Hope screenshot. The sharp one must never be added to the repo: the site is not launched. |

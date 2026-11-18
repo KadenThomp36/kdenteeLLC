@@ -20,7 +20,7 @@ type Status = "idle" | "sending" | "sent" | "failed";
 const fieldClasses =
   "block w-full rounded-control border border-rule bg-surface px-3.5 py-2.5 text-body text-ink " +
   "transition-[border-color] duration-150 ease-out hover:border-graphite/50 " +
-  "aria-[invalid=true]:border-pink-deep";
+  "aria-[invalid=true]:border-pink-text";
 
 export default function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
@@ -134,7 +134,7 @@ export default function ContactForm() {
       </div>
 
       {status === "failed" ? (
-        <p role="alert" className="mt-8 max-w-prose text-pink-deep">
+        <p role="alert" className="mt-8 max-w-prose text-pink-text">
           Your message didn’t send. Email me at{" "}
           <TextLink href={mailto}>{site.email}</TextLink> instead.
         </p>
@@ -169,7 +169,7 @@ function Field({
       </label>
       {children}
       {error?.message ? (
-        <p id={`${id}-error`} className="mt-2 text-small text-pink-deep">
+        <p id={`${id}-error`} className="mt-2 text-small text-pink-text">
           {error.message}
         </p>
       ) : null}

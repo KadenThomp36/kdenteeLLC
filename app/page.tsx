@@ -1,5 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
-import Image, { getImageProps } from "next/image";
+import Image, { getImageProps, type StaticImageData } from "next/image";
 import Link from "next/link";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
@@ -15,6 +15,8 @@ import SideProjects from "@/components/SideProjects";
 import { externalUrls, mailto, site, testimonial } from "@/lib/site";
 import heroPortrait from "@/public/img/kaden-hero.jpg";
 import heroPortraitMobile from "@/public/img/kaden-hero-mobile.jpg";
+import heroPortraitDark from "@/public/img/kaden-hero-dark.webp";
+import heroPortraitMobileDark from "@/public/img/kaden-hero-mobile-dark.webp";
 import koanBanner from "@/public/img/koan-banner.png";
 
 const workShotSizes = "(min-width: 1200px) 540px, (min-width: 768px) 45vw, 80vw";
@@ -199,19 +201,45 @@ function Hero() {
 
 const sentenceCase = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
-// Art-directed portrait: a shorter bust below 768px (kaden-hero-mobile.jpg), the full one from
-// 768px up. A <picture> means the browser downloads only the file that matches. Both are served
-// as-is (unoptimized): re-encoding shifts the #F4F4F4 backdrop by a level and a seam shows.
-// getImageProps does not emit a preload, so nothing fetches the unused file.
+// Art-directed portrait: a shorter bust below 768px (the -mobile files), the full one from 768px
+// up, and one pair per theme: the light JPEGs are flattened onto #F4F4F4, the dark WebPs are
+// transparent cut-outs. A <picture> per theme picks the width; `dark:` hides the other theme's
+// picture, and since a display:none lazy image is never fetched, the browser downloads only the
+// one file it shows. A prefers-color-scheme <source> alone would ignore the footer toggle.
+// Served as-is (unoptimized): re-encoding shifts the #F4F4F4 backdrop by a level and a seam shows.
+// getImageProps does not emit a preload, so nothing fetches an unused file.
 function HeroPortrait() {
-  const common = { alt: "Kaden Thompson", unoptimized: true, priority: true } as const;
-  const { props: desktop } = getImageProps({ ...common, src: heroPortrait });
-  const { props: mobile } = getImageProps({ ...common, src: heroPortraitMobile });
   return (
-    <picture className="block">
+    <>
+      <PortraitPicture desktop={heroPortrait} mobile={heroPortraitMobile} className="dark:hidden" />
+      <PortraitPicture desktop={heroPortraitDark} mobile={heroPortraitMobileDark} className="hidden dark:block" />
+    </>
+  );
+}
+
+function PortraitPicture({
+  desktop: desktopSrc,
+  mobile: mobileSrc,
+  className,
+}: {
+  desktop: StaticImageData;
+  mobile: StaticImageData;
+  className: string;
+}) {
+  const common = { alt: "Kaden Thompson", unoptimized: true, loading: "lazy" } as const;
+  const { props: desktop } = getImageProps({ ...common, src: desktopSrc });
+  const { props: mobile } = getImageProps({ ...common, src: mobileSrc });
+  return (
+    <picture className={`block ${className}`}>
       <source media="(min-width: 768px)" srcSet={desktop.src} width={desktop.width} height={desktop.height} />
       {/* eslint-disable-next-line @next/next/no-img-element -- props come from getImageProps */}
-      <img {...mobile} alt={common.alt} className="hero-enter-portrait block h-auto w-full" />
+      <img
+        {...mobile}
+        alt={common.alt}
+        // Lazy only so the hidden theme's file is skipped; the shown one is still first in line.
+        fetchPriority="high"
+        className="hero-enter-portrait block h-auto w-full"
+      />
     </picture>
   );
 }

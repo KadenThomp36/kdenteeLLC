@@ -5,22 +5,64 @@
 /* Design system: docs/redesign-brief.md */
 
 @layer base {
+  /* ---- Colour tokens ----
+     Space-separated RGB channels, read by tailwind.config.ts as rgb(var(--c-…) / <alpha>).
+     Theme choice (lib/theme.ts): no data-theme attribute on <html> = follow the system;
+     data-theme="light" | "dark" = an explicit choice from the footer toggle.
+     Changes apply instantly: never transition colours on a theme switch. */
   :root {
     --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
     color-scheme: light;
+
+    /* Light. Paper must stay exactly #F4F4F4: the light hero portrait's backdrop is graded to it. */
+    --c-paper: 244 244 244;      /* #F4F4F4 */
+    --c-surface: 255 255 255;    /* #FFFFFF */
+    --c-ink: 32 26 35;           /* #201A23 */
+    --c-graphite: 94 87 99;      /* #5E5763 */
+    --c-rule: 225 222 226;       /* #E1DEE2 */
+    --c-pink-text: 173 20 87;    /* #AD1457 */
+
+    /* The same in both themes. */
+    --c-pink: 216 27 96;         /* #D81B60 */
+    --c-pink-deep: 173 20 87;    /* #AD1457, button hover/active only */
+    --c-tape: 247 198 0;         /* #F7C600 */
+    --c-white: 255 255 255;      /* text on the pink button, ::selection */
+  }
+
+  /* Dark. These two blocks must stay identical (CSS cannot share one declaration block between
+     a media query and a plain selector): the first is the system preference when nothing was
+     chosen, the second an explicit choice that overrides the system. */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --c-paper: 23 20 26;       /* #17141A */
+      --c-surface: 31 27 35;     /* #1F1B23 */
+      --c-ink: 242 239 243;      /* #F2EFF3 */
+      --c-graphite: 169 161 174; /* #A9A1AE */
+      --c-rule: 51 45 56;        /* #332D38 */
+      --c-pink-text: 240 106 153; /* #F06A99 */
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --c-paper: 23 20 26;
+    --c-surface: 31 27 35;
+    --c-ink: 242 239 243;
+    --c-graphite: 169 161 174;
+    --c-rule: 51 45 56;
+    --c-pink-text: 240 106 153;
   }
 
   html {
-    /* Exactly #F4F4F4: the hero portrait's backdrop is graded to match. */
-    background-color: theme("colors.paper");
+    background-color: rgb(var(--c-paper));
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
   }
 
   body {
     @apply bg-paper font-sans text-body text-ink antialiased;
-    caret-color: theme("colors.pink.DEFAULT");
-    accent-color: theme("colors.pink.DEFAULT");
+    caret-color: rgb(var(--c-pink));
+    accent-color: rgb(var(--c-pink));
     font-feature-settings: "kern";
   }
 
@@ -33,12 +75,12 @@
   }
 
   ::selection {
-    background-color: theme("colors.pink.DEFAULT");
-    color: theme("colors.white");
+    background-color: rgb(var(--c-pink));
+    color: rgb(var(--c-white));
   }
 
   :focus-visible {
-    outline: 2px solid theme("colors.pink.DEFAULT");
+    outline: 2px solid rgb(var(--c-pink));
     outline-offset: 2px;
   }
 }
@@ -47,7 +89,7 @@
   /* Inline text link: pink underline that thickens on hover. */
   .text-link {
     text-decoration-line: underline;
-    text-decoration-color: theme("colors.pink.DEFAULT");
+    text-decoration-color: rgb(var(--c-pink));
     text-decoration-thickness: 1.5px;
     text-underline-offset: 4px;
     transition: text-decoration-thickness 150ms ease-out;
@@ -76,7 +118,7 @@
 
   /* Skip link: hidden until focused. */
   .skip-link {
-    @apply absolute left-4 top-4 z-10 rounded-control bg-ink px-4 py-2 text-small font-medium text-white;
+    @apply absolute left-4 top-4 z-10 rounded-control bg-ink px-4 py-2 text-small font-medium text-paper;
     transform: translateY(-200%);
   }
   .skip-link:focus-visible {
@@ -154,7 +196,7 @@
   .wip-veil {
     position: absolute;
     inset: 0;
-    background: rgb(244 244 244 / 0.4);
+    background: rgb(var(--c-paper) / 0.4);
   }
   .tape {
     position: absolute;
@@ -192,7 +234,7 @@
       /* faint fold lines */
       linear-gradient(97deg, transparent 27.6%, rgb(0 0 0 / 0.07) 27.8%, rgb(255 255 255 / 0.22) 28.1%, transparent 28.6%),
       linear-gradient(83deg, transparent 63.2%, rgb(0 0 0 / 0.06) 63.4%, rgb(255 255 255 / 0.2) 63.7%, transparent 64.2%),
-      theme("colors.tape");
+      rgb(var(--c-tape));
   }
   .tape-words i {
     display: block;
@@ -211,7 +253,7 @@
     background:
       linear-gradient(180deg, rgb(255 255 255 / 0.4), rgb(255 255 255 / 0) 45%, rgb(0 0 0 / 0.12)),
       linear-gradient(95deg, transparent 41.5%, rgb(0 0 0 / 0.12) 41.7%, rgb(255 255 255 / 0.18) 42%, transparent 42.5%),
-      repeating-linear-gradient(-45deg, #1b1b1b 0 11px, theme("colors.tape") 11px 22px);
+      repeating-linear-gradient(-45deg, #1b1b1b 0 11px, rgb(var(--c-tape)) 11px 22px);
   }
 }
 
@@ -247,7 +289,7 @@
   top: calc(100% - 0.15em);
   width: calc(100% + 0.09em);
   height: 0.2667em; /* 16 viewBox units at the same scale as the 212-unit width */
-  color: theme("colors.pink.DEFAULT");
+  color: rgb(var(--c-pink));
   clip-path: inset(0);
   pointer-events: none;
 }

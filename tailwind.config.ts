@@ -1,11 +1,24 @@
 import type { Config } from "tailwindcss";
 
+// A theme colour: the RGB channels live in a CSS variable (light and dark values are set in
+// app/globals.css), so opacity modifiers such as `border-graphite/50` keep working.
+const token = (name: string) => `rgb(var(--c-${name}) / <alpha-value>)`;
+
 // Design tokens from docs/redesign-brief.md. Colours and radii replace Tailwind's defaults
 // on purpose, so nothing off-palette can creep in.
 const config: Config = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
+  // `dark:` matches the same rule as the colour variables: an explicit dark choice, or a dark
+  // system setting unless light was chosen explicitly (lib/theme.ts, app/globals.css).
+  darkMode: [
+    "variant",
+    [
+      "@media (prefers-color-scheme: dark) { &:not([data-theme=light] *) }",
+      "&:is([data-theme=dark] *)",
+    ],
   ],
   future: {
     // `hover:` only applies on devices that can actually hover.
@@ -15,14 +28,20 @@ const config: Config = {
     colors: {
       transparent: "transparent",
       current: "currentColor",
-      white: "#FFFFFF",
-      paper: "#F4F4F4",
-      surface: "#FFFFFF",
-      ink: "#201A23",
-      graphite: "#5E5763",
-      rule: "#E1DEE2",
-      pink: { DEFAULT: "#D81B60", deep: "#AD1457" },
-      tape: "#F7C600",
+      white: token("white"),
+      paper: token("paper"),
+      surface: token("surface"),
+      ink: token("ink"),
+      graphite: token("graphite"),
+      rule: token("rule"),
+      pink: {
+        DEFAULT: token("pink"),
+        // Hover/active background of the pink button only.
+        deep: token("pink-deep"),
+        // Pink text or borders on the page background (lighter in dark, for contrast).
+        text: token("pink-text"),
+      },
+      tape: token("tape"),
     },
     borderRadius: {
       none: "0",
@@ -56,4 +75,7 @@ const config: Config = {
   plugins: [],
 };
 
-export default config;
+// CommonJS on purpose. Node 24 loads a .ts file natively, and one written with `export` is cached
+// as an ES module that Tailwind cannot evict, so the running dev server would never see edits to
+// this file. With module.exports it is a plain CommonJS module and reloads on change.
+module.exports = config;
