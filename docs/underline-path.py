@@ -1,27 +1,26 @@
 """Generate the tapered underline drawn beneath "Kdentee" in the home hero.
 
-Prints the SVG path for a 212 x 14 viewBox: a filled, variable-width stroke that is pressed
-down at the start, swells, then runs out in a long taper. Paste it into
+Prints the SVG path for a 212 x 16 viewBox: a filled, variable-width stroke that tapers in
+from a point, runs full through the middle, and tapers out to a soft tip. Paste it into
 components/ui/DrawnUnderline.tsx.
 usage: python docs/underline-path.py
 """
 import math
 
-W, H = 212.0, 14.0
+W, H = 212.0, 16.0
 X0, X1 = 2.0, 209.0          # stroke runs between these x positions
-HMAX = 3.05                  # half of the maximum thickness, in viewBox units
-N = 18                       # samples per edge
+HMAX = 3.85                  # half of the maximum thickness, in viewBox units
+N = 30                       # samples per edge
 
 def spine(t):                # an arc: sags through the middle, then lifts into the tail
     x = X0 + (X1 - X0) * t
-    y = 5.4 + 3.25 * math.sin(math.pi * t) - 2.4 * t ** 2
+    y = 6.0 + 3.25 * math.sin(math.pi * t) - 2.4 * t ** 2
     return x, y
 
-def half_width(t):           # pen pressure: lands with some weight, swells early, long fine taper
-    swell = math.sin(math.pi * t ** 0.62) ** 0.85 if 0 < t < 1 else 0.0
-    landing = 0.42 * (1 - t) ** 3
-    tail = (1 - t ** 2.6) ** 1.05
-    return HMAX * max(swell, landing) * tail + 0.0
+def half_width(t):           # tapers in from a point, full through the middle, tapers out to a soft tip
+    rise = math.sin(math.pi / 2 * min(t / 0.17, 1.0)) ** 0.85
+    fall = 1.0 if t <= 0.4 else max(1 - ((t - 0.4) / 0.6) ** 2.4, 0.0) ** 0.9
+    return HMAX * rise * fall
 
 def normal(t, e=1e-3):
     x0, y0 = spine(max(t - e, 0)); x1, y1 = spine(min(t + e, 1))
