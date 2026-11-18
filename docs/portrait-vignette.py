@@ -1,7 +1,14 @@
 """Grade the hero portrait and bake a vignetted-bust dissolve into it.
 
-usage: python vignette.py <source.jpg> <out.jpg> [--debug]
+usage: python vignette.py <source.jpg> <out.jpg> [--mobile] [--debug]
 The result is flattened onto the site's paper colour (#F4F4F4), so it needs no CSS mask.
+
+Default: the desktop file, public/img/kaden-hero.jpg (1067x1130).
+--mobile: public/img/kaden-hero-mobile.jpg, a shorter bust for the phone hero, where the h1's
+first line overlaps the bottom of the portrait. The dissolve starts higher and finishes sooner,
+so the head, collar, bow tie and shoulder line stay crisp while the chest is already nearly
+paper under the headline (ink on it must keep >= 7:1 contrast). Same curve, grain and dither;
+the frame is trimmed just below the dissolve.
 """
 import sys, numpy as np
 from PIL import Image
@@ -9,7 +16,14 @@ from scipy import ndimage as ndi
 
 src, out = sys.argv[1], sys.argv[2]
 PAPER = 244.0
-OUT_H = 1130                                   # rows kept from the top of the frame
+# Per-preset geometry (source rows/columns). bottom: chest dissolve start/end rows;
+# left/right: rows over which the side reach grows, and how far it reaches.
+PRESETS = {
+    "desktop": dict(out_h=1130, bottom=(610, 1110), left=(400, 900, 400), right=(520, 1000, 430)),
+    "mobile":  dict(out_h=950,  bottom=(540, 940),  left=(400, 860, 380), right=(520, 900, 400)),
+}
+P = PRESETS["mobile" if "--mobile" in sys.argv else "desktop"]
+OUT_H = P["out_h"]                             # rows kept from the top of the frame
 
 def smoother(t):                               # smootherstep: zero slope AND curvature at both ends
     t = np.clip(t, 0, 1); return t * t * t * (t * (t * 6 - 15) + 10)
@@ -39,9 +53,10 @@ img = img * (1 - gaps) + 15.0 * gaps
 # 3. vignette: three long eased falloffs whose reach grows down the frame, so the
 #    kept area is a soft bust shape rather than a rectangle
 y = np.arange(H, dtype=np.float32)[:, None]; x = np.arange(W, dtype=np.float32)[None, :]
-bottom = 1 - smoother((y - 610) / (1110 - 610))            # chest dissolves over ~485 px
-wl = 1 + 400 * smoother((y - 400) / (900 - 400))            # left reach: 0 at head height
-wr = 1 + 430 * smoother((y - 520) / (1000 - 520))           # right reach: starts below the shoulder
+(b0, b1), (l0, l1, lr), (r0, r1, rr) = P["bottom"], P["left"], P["right"]
+bottom = 1 - smoother((y - b0) / (b1 - b0))                 # chest dissolve (desktop: ~485 px)
+wl = 1 + lr * smoother((y - l0) / (l1 - l0))                # left reach: 0 at head height
+wr = 1 + rr * smoother((y - r0) / (r1 - r0))                # right reach: starts below the shoulder
 left = smoother(x / wl)
 right = smoother((W - 1 - x) / wr)
 alpha = bottom * left * right

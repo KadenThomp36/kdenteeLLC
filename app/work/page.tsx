@@ -40,7 +40,7 @@ export default function WorkPage() {
           sizes="(min-width: 1200px) 1120px, 100vw"
         />
 
-        <LedgerRows as="dl" className="mt-8 md:mt-10">
+        <LedgerRows as="dl" compact labelWidth="5rem" className="mt-8 md:mt-10">
           <LedgerRow label="Client">
             <p>Lincoln Township, Midland County</p>
           </LedgerRow>

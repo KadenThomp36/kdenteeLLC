@@ -1,5 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
-import Image from "next/image";
+import Image, { getImageProps } from "next/image";
 import Link from "next/link";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
@@ -9,11 +9,13 @@ import LedgerRows, { LedgerRow } from "@/components/ui/LedgerRows";
 import BrowserShot from "@/components/ui/BrowserShot";
 import ConstructionShot from "@/components/ui/ConstructionShot";
 import Quote from "@/components/ui/Quote";
+import ScrollRegion from "@/components/ui/ScrollRegion";
 import { mailto, site, testimonial } from "@/lib/site";
 import heroPortrait from "@/public/img/kaden-hero.jpg";
+import heroPortraitMobile from "@/public/img/kaden-hero-mobile.jpg";
 import koanBanner from "@/public/img/koan-banner.png";
 
-const workShotSizes = "(min-width: 1200px) 540px, (min-width: 768px) 45vw, 100vw";
+const workShotSizes = "(min-width: 1200px) 540px, (min-width: 768px) 45vw, 80vw";
 
 // Staggered delay for the hero entrance (see .hero-enter in globals.css).
 const delay = (ms: number) => ({ "--hero-delay": `${ms}ms` }) as CSSProperties;
@@ -24,35 +26,45 @@ export default function HomePage() {
       <Hero />
 
       <Section id="recent-work" heading="Recent work">
-        <div className="grid gap-y-14 md:grid-cols-2 md:gap-x-10 lg:gap-x-14">
-          <WorkItem
-            shot={
-              <Link href="/work#lincoln" className="block rounded-image">
-                <BrowserShot
-                  src="/img/work/lincoln-home.jpg"
-                  alt="The home page of Lincoln Township’s website"
-                  sizes={workShotSizes}
-                />
-              </Link>
-            }
-            title="Lincoln Township"
-            href="/work#lincoln"
-            line="Midland County, live since 2025"
-          >
-            I’ve looked after Lincoln’s website since 2022. In 2025 they chose me in a competitive bid
-            to rebuild it, and in 2026 it moved to the township’s own .gov address. Daily visits
-            roughly doubled in the first year.
-          </WorkItem>
-          <WorkItem
-            shot={<ConstructionShot sizes={workShotSizes} />}
-            title="Hope Township"
-            href="/work#hope"
-            line="Midland County, in progress"
-          >
-            Hope’s new site is being built now, with online booking for the township hall and park
-            pavilions.
-          </WorkItem>
-        </div>
+        {/* Below md a swipe row (CSS scroll snap, see .workrow in globals.css): one item in view,
+            the next peeking in from the screen edge. From md the two-column grid. ScrollRegion
+            makes the row keyboard-scrollable only while it actually scrolls. */}
+        <ScrollRegion label="Projects" className="workrow">
+          {/* role="list": Safari drops list semantics from unstyled lists */}
+          <ul role="list" className="workrow-list">
+            <li className="workrow-item">
+              <WorkItem
+                shot={
+                  <Link href="/work#lincoln" className="block rounded-image">
+                    <BrowserShot
+                      src="/img/work/lincoln-home.jpg"
+                      alt="The home page of Lincoln Township’s website"
+                      sizes={workShotSizes}
+                    />
+                  </Link>
+                }
+                title="Lincoln Township"
+                href="/work#lincoln"
+                line="Midland County, live since 2025"
+              >
+                I’ve looked after Lincoln’s website since 2022. In 2025 they chose me in a competitive bid
+                to rebuild it, and in 2026 it moved to the township’s own .gov address. Daily visits
+                roughly doubled in the first year.
+              </WorkItem>
+            </li>
+            <li className="workrow-item">
+              <WorkItem
+                shot={<ConstructionShot sizes={workShotSizes} />}
+                title="Hope Township"
+                href="/work#hope"
+                line="Midland County, in progress"
+              >
+                Hope’s new site is being built now, with online booking for the township hall and park
+                pavilions.
+              </WorkItem>
+            </li>
+          </ul>
+        </ScrollRegion>
         <Quote {...testimonial} className="mt-16 md:mt-20" />
       </Section>
 
@@ -101,7 +113,7 @@ export default function HomePage() {
             className="block h-auto w-full"
           />
         </div>
-        <LedgerRows className="mt-8 md:mt-10">
+        <LedgerRows compact className="mt-8 md:mt-10">
           <LedgerRow label="Koan">
             <p>A native web browser for the Mac, with vertical tabs and workspaces.</p>
           </LedgerRow>
@@ -133,12 +145,19 @@ export default function HomePage() {
   );
 }
 
+// Mobile hero geometry (below md). The portrait is W = min(57%, 15rem) of the content width. The
+// h1 pulls up over its foot by 0.123 W (percentage margins resolve against the content width, so
+// -7% = 0.123 x 57%; -1.84rem = 0.123 x 15rem), less 4px for the space above the glyphs. That is
+// as far as the mobile file's dissolve stays pale enough for ink to keep >= 9:1 (7:1 required):
+// re-measure if either number or the image changes. The byline's foot sits 0.18 W above the
+// image's foot (10.26% = 0.18 x 57%).
 function Hero() {
   return (
     <section aria-labelledby="hero-heading">
       <Container>
         <div className="grid md:grid-cols-[minmax(0,41fr)_minmax(0,59fr)] md:gap-x-8 lg:gap-x-12 xl:gap-x-16">
-          <div className="pb-10 pt-6 md:order-2 md:self-center md:py-8">
+          {/* Positioned so it paints over the portrait where the h1 overlaps it on mobile. */}
+          <div className="relative z-[1] mt-[calc(max(-7%,-1.84rem)+4px)] pb-10 md:order-2 md:mt-0 md:self-center md:py-8">
             <h1 id="hero-heading" className="hero-enter max-w-[15em] text-h1-hero" style={delay(60)}>
               Kdentee is a <span className="whitespace-nowrap">one-person</span> web studio in Waterford, Michigan.
             </h1>
@@ -158,26 +177,49 @@ function Hero() {
                 See recent work
               </TextLink>
             </div>
-            <p className="hero-enter mt-8 text-small text-graphite md:mt-10" style={delay(270)}>
+            {/* From md up the signature sits under the actions; on mobile the byline beside the
+                portrait replaces it (display:none, so it is never read twice). */}
+            <p className="hero-enter mt-10 hidden text-small text-graphite md:block" style={delay(270)}>
               <span className="font-semibold text-ink">{site.owner}</span>, {site.ownerRole}
             </p>
           </div>
-          {/* The dissolve is baked into the image (docs/portrait-vignette.py), so it is always shown
-              whole: never crop it or add a CSS mask. */}
-          <figure className="md:order-1 md:self-center">
-            <Image
-              src={heroPortrait}
-              alt="Kaden Thompson"
-              priority
-              // Served as-is: re-encoding shifts the #F4F4F4 backdrop by a level and a seam shows.
-              unoptimized
-              sizes="(min-width: 1200px) 460px, (min-width: 768px) 40vw, 82vw"
-              className="hero-enter-portrait block h-auto w-[82%] max-w-[23rem] md:w-full md:max-w-none"
-            />
-          </figure>
+          <div className="order-first flex items-end pt-2 md:order-1 md:block md:self-center md:pt-0">
+            {/* The dissolve is baked into the image (docs/portrait-vignette.py), so it is always
+                shown whole: never crop it or add a CSS mask. The bleed past the gutter puts his
+                hair, not the empty paper beside it, on the page edge. */}
+            <figure className="-ml-3 w-[min(57%,15rem)] shrink-0 md:ml-0 md:w-auto">
+              <HeroPortrait />
+            </figure>
+            <p
+              className="hero-enter mb-[min(10.26%,2.7rem)] ml-[max(-3%,-0.8rem)] min-w-0 text-small text-graphite md:hidden"
+              style={delay(270)}
+            >
+              <span className="block font-semibold text-ink">{site.owner}</span>
+              {sentenceCase(site.ownerRole)}
+            </p>
+          </div>
         </div>
       </Container>
     </section>
+  );
+}
+
+const sentenceCase = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+
+// Art-directed portrait: a shorter bust below 768px (kaden-hero-mobile.jpg), the full one from
+// 768px up. A <picture> means the browser downloads only the file that matches. Both are served
+// as-is (unoptimized): re-encoding shifts the #F4F4F4 backdrop by a level and a seam shows.
+// getImageProps does not emit a preload, so nothing fetches the unused file.
+function HeroPortrait() {
+  const common = { alt: "Kaden Thompson", unoptimized: true, priority: true } as const;
+  const { props: desktop } = getImageProps({ ...common, src: heroPortrait });
+  const { props: mobile } = getImageProps({ ...common, src: heroPortraitMobile });
+  return (
+    <picture className="block">
+      <source media="(min-width: 768px)" srcSet={desktop.src} width={desktop.width} height={desktop.height} />
+      {/* eslint-disable-next-line @next/next/no-img-element -- props come from getImageProps */}
+      <img {...mobile} alt={common.alt} className="hero-enter-portrait block h-auto w-full" />
+    </picture>
   );
 }
 

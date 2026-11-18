@@ -65,6 +65,16 @@ sheen on the construction tape.
   details. Do not use cards, card grids, bento grids, icon tiles or pills.
 - Radius: 8px on buttons and inputs, 12px on images. No other radii.
 - No sticky header. No hamburger: the four nav links fit beside the wordmark at 360px wide.
+- **Phone layout (below 768px) avoids a plain stack of full-width blocks:**
+  - Home hero: the portrait sits left with a byline to its right (name over "Software engineer and
+    owner"), and the h1 pulls up so its first line overlaps the portrait's faded lower edge. No
+    scrim or shadow behind the text: the first line must keep at least 7:1 contrast against the
+    darkest pixel behind it, which comes from the mobile portrait file and the overlap amount.
+    The signature line under the actions is shown only from 768px up.
+  - Home "Recent work" is a swipe row (CSS scroll snap, `ScrollRegion`): one item in view, the
+    next peeking in from the screen edge. From 768px it is the two-column grid.
+  - Ledger rows with short labels keep the label in a left column (`LedgerRows compact`): the
+    home side-project list and the Lincoln facts on the Work page. Lists with long labels stack.
 
 ### Motion and interaction
 
@@ -130,6 +140,7 @@ link · "GitHub" linking to https://github.com/KadenThomp36 · "© {year}".
 | File | What |
 |---|---|
 | `public/img/kaden-hero.jpg` (1067×1130) | Black-and-white portrait as a vignetted bust: the backdrop is exactly `#F4F4F4` and the chest dissolves into it with an eased, grain-dithered falloff baked into the file by `docs/portrait-vignette.py`. Hero only. Always show it whole and unoptimized, with no frame, crop or CSS mask. He looks toward the right, so the photo sits LEFT of the headline on desktop. |
+| `public/img/kaden-hero-mobile.jpg` (1067×950) | The same portrait with an earlier, shorter dissolve (`docs/portrait-vignette.py --mobile`), served below 768px so the headline can overlap its faded lower edge and stay legible. Same rules: whole, unoptimized, no mask. |
 | `public/img/kaden-about.jpg` (1067×1600) | Smiling portrait. Its backdrop does not match the page, so show it framed (12px radius). About page only. |
 | `public/img/work/lincoln-home.jpg`, `lincoln-meeting.jpg` (2000×1250) | Live Lincoln Township site |
 | `public/img/work/hope-blurred.jpg` | Pre-blurred Hope screenshot. The sharp one must never be added to the repo: the site is not launched. |
@@ -174,7 +185,7 @@ Give every page its own title and description, and set Open Graph title/descript
 - Signature line under the actions (small, graphite; the name in ink, weight 600): **Kaden Thompson**, software engineer and owner
 - Portrait alt: Kaden Thompson
 
-**Recent work** (h2). Two columns on desktop, stacked on mobile. Each item is a shot, then h3, then a small graphite line, then a paragraph. Not cards: no border, background or padding around the item.
+**Recent work** (h2). Two columns on desktop, a swipe row on mobile. Each item is a shot, then h3, then a small graphite line, then a paragraph. Not cards: no border, background or padding around the item.
 
 1. `BrowserShot` of `lincoln-home.jpg` (alt: The home page of Lincoln Township's website). The shot and the h3 link to `/work#lincoln`.
    - h3: Lincoln Township

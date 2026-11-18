@@ -83,6 +83,66 @@
     transform: none;
   }
 
+  /* ---- Home "Recent work": swipe row below md, two-column grid from md ---- */
+  .workrow-list {
+    display: grid;
+    row-gap: 3.5rem;
+  }
+  @media (min-width: 768px) {
+    .workrow-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 2.5rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .workrow-list {
+      column-gap: 3.5rem;
+    }
+  }
+  @media (max-width: 767.98px) {
+    /* The scroller bleeds to both screen edges; the list's padding and the scroll padding put
+       the first item (and, scrolled to the end, the last) on the 24px page gutter. */
+    .workrow {
+      container-type: inline-size;
+      margin-inline: -1.5rem;
+      /* room for the items' focus rings, which overflow would otherwise clip */
+      margin-block: -4px;
+      padding-block: 4px;
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scroll-snap-type: x mandatory;
+      scroll-padding-inline: 1.5rem;
+      -webkit-overflow-scrolling: touch;
+    }
+    .workrow:focus-visible {
+      outline-offset: -2px;
+    }
+    .workrow-list {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      width: max-content;
+      padding-inline: 1.5rem;
+    }
+    .workrow-item {
+      /* 84% of the content width (the scroller minus its two gutters) */
+      width: calc((100cqw - 3rem) * 0.84);
+      flex: none;
+      scroll-snap-align: start;
+    }
+    .workrow-item:last-child {
+      scroll-snap-align: end;
+    }
+  }
+  @media (max-width: 767.98px) and (pointer: coarse) {
+    .workrow {
+      scrollbar-width: none;
+    }
+    .workrow::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
   /* ---- Under-construction shot (ConstructionShot) ---- */
   .wip {
     container-type: inline-size;
