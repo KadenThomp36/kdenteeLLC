@@ -160,7 +160,7 @@ function Hero() {
           {/* Positioned so it paints over the portrait where the h1 overlaps it on mobile. */}
           <div className="relative z-[1] mt-[calc(max(-7%,-1.84rem)+4px)] pb-10 md:order-2 md:mt-0 md:self-center md:py-8">
             <h1 id="hero-heading" className="hero-enter max-w-[15em] text-h1-hero" style={delay(60)}>
-              <DrawnUnderline>Kdentee</DrawnUnderline> is a{" "}
+              <DrawnUnderline variant="brush">Kdentee</DrawnUnderline> is a{" "}
               <span className="whitespace-nowrap">one-person</span> web studio in Waterford, Michigan.
             </h1>
             <p

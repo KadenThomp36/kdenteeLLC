@@ -34,8 +34,10 @@ what he has built, what he does, and how to reach him.
 
 Pink is rare. On any screen it should appear on one button, link underlines, and nothing else.
 The one exception is the drawn underline beneath "Kdentee" in the home hero (`DrawnUnderline`):
-one pass of a thick felt-tip pen: nearly constant width, round ends, a slight sag and lift,
-edges a little uneven. Never a scribble and never repeated elsewhere.
+a single hand-made-looking stroke, never a scribble and never repeated elsewhere. Two versions
+are kept and chosen with the `variant` prop: `brush` (in use: an ink-brush sweep like one stroke
+of an enso, solid where it lands and breaking into dry streaks as it lifts) and `marker` (one
+pass of a thick felt-tip pen: even width, round ends).
 No pink headings, no pink words inside headings, no tinted backgrounds, no glows, no shadows on
 cards or buttons. The only gradients allowed are the mask fade on the hero portrait and the
 sheen on the construction tape.
